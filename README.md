@@ -264,7 +264,7 @@ $ sudo apt-get install xorg wget libxrender-dev lsb-release libraspberrypi-dev r
 
 ## Move the compiled app to /usr/local/bin
 
-- `$ sudo mv dist/BlueAndPinkSynthEditor/ /usr/local/bin/Blue-and-Pink-Synth-Editor/dist/BlueAndPinkSynthEditor/BlueAndPinkSynthEditor`
+- `$ sudo mv dist/BlueAndPinkSynthEditor/ /usr/local/bin/`
 
 ## Add Entry in Raspberry Pi Main Menu
 - `$ sudo cp BlueAndPinkSynthEditor.desktop /usr/share/applications`
