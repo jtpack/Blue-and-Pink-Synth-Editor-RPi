@@ -194,6 +194,7 @@ Tested Touchscreens:
 - Go to Extensions
 - Find the python extension (made by Microsoft) and install it
 - Install the Gitlens extension
+- Install the Kivy extension (made by BattleBas)
 
 ### Protokol
 *For debugging MIDI and OSC messages*
