@@ -2016,10 +2016,6 @@ ScreenManager:
 <SaveDialog>:
     text_input: text_input
     orientation: "vertical"
-    FileChooserListView:
-        id: filechooser
-        path: str(app._presets_directory_path)
-        on_selection: text_input.text = self.selection and self.selection[0] or ''
 
     TextInput:
         id: text_input
@@ -2049,6 +2045,10 @@ ScreenManager:
             text: "OK"
             on_release: root.save(filechooser.path, filechooser.path + '/' + text_input.text)
 
+    FileChooserListView:
+        id: filechooser
+        path: str(app._presets_directory_path)
+        on_selection: text_input.text = self.selection and self.selection[0] or ''
 
 <ErrorDialog>:
     orientation: 'vertical'

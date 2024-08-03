@@ -14,36 +14,6 @@ class SaveDialog(BoxLayout):
 
     def __init__(self, **kwargs):
         super(SaveDialog, self).__init__(**kwargs)
-        self._keyboard = None
-
-    def _unbind_keyboard(self):
-        # Do not actually unbind the keyboard
-        # because we want to activate the OK
-        # action when the user presses the Enter
-        # key and cancel when they press the
-        # Escape key.
-        pass
-
-    def _on_key_down(self, keyboard, keycode, text, modifiers):
-        Logger.debug(f'SaveDialog on_key_down: {keyboard}, {keycode}, {text}, {modifiers}')
-        self.text_input.focus = True
-
-    def _on_key_up(self, keyboard, keycode):
-        Logger.debug(f'SaveDialog on_key_up: {keyboard}, {keycode}')
-
-        # Handle Enter Key
-        # This is the same as clicking the OK button
-        enter_keycode = 13
-        numpad_enter_keycode = 271
-
-        if keycode[0] in [enter_keycode, numpad_enter_keycode]:
-            self.save(self.ids.filechooser.path, self.ids.filechooser.path + '/' + self.ids.text_input.text)
-
-        # Handle escape key
-        # This is the same as clicking the Cancel button
-        escape_keycode = 27
-        if keycode[0] in [escape_keycode]:
-            App.get_running_app().dismiss_popup()
 
 class SavePopup(Popup):
     def on_open(self):
