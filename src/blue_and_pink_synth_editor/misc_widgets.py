@@ -452,7 +452,7 @@ class ParamsGrid(GridLayout):
     corner_radius = NumericProperty(0)
 
 
-class ParamNameLabel(Label):
+class ParamNameLabel(ButtonBehavior, Label):
     text_color_string = StringProperty('#ECBFEBFF')
 
 

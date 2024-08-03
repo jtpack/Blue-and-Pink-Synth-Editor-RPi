@@ -63,7 +63,7 @@ Factory.register('SaveDialog', cls=SaveDialog)
 
 kivy.require('2.1.0')
 
-app_version_string = 'v0.3.1-beta'
+app_version_string = 'v0.3.1-beta_dev'
 
 
 class BlueAndPinkSynthEditorApp(App):
@@ -2852,3 +2852,15 @@ class BlueAndPinkSynthEditorApp(App):
             raise Exception(f'lfo_key_sync must be between 0 and 1: {lfo_key_sync}')
 
         return 'ON' if lfo_key_sync == 1 else 'OFF'
+
+    def control_section_selected(self, name):
+        """
+        A control section has been selected by tapping its title
+        """
+        print(name)
+
+    def control_selected(self, name):
+        """
+        A control has been selected by tapping its title
+        """
+        print(name)
