@@ -2,3 +2,4 @@
 Type=Application
 Name=Blue and Pink Synth Editor
 Exec=/usr/local/bin/BlueAndPinkSynthEditor/BlueAndPinkSynthEditor
+Terminal=true
