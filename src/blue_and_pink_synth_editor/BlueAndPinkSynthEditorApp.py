@@ -63,7 +63,7 @@ Factory.register('SaveDialog', cls=SaveDialog)
 
 kivy.require('2.1.0')
 
-app_version_string = 'v0.3.1-beta'
+app_version_string = 'v0.3.2-beta'
 
 
 class BlueAndPinkSynthEditorApp(App):
@@ -428,34 +428,6 @@ class BlueAndPinkSynthEditorApp(App):
         self.icon = str(Path(__file__).resolve().parent / 'icon.png')
 
         #
-        # Keyboard Stuff
-        #
-
-        # Bind keyboard events
-        self._bind_keyboard()
-
-        # Keep track of currently held modifier keys
-        self._shift_key_pressed = False
-        self._caps_lock_key_on = False
-        self._meta_key_pressed = False
-        self._alt_key_pressed = False
-
-        # Choose the fine mode modifier key based on the
-        # current operating system
-        #
-        os_name = platform.system()
-        Logger.info(f'Operating system is {os_name}')
-
-        if os_name == 'Windows':
-            self.fine_mode_modifier_key = 'shift'
-        elif os_name == 'Darwin':
-            self.fine_mode_modifier_key = 'meta'
-        elif os_name == 'Linux':
-            self.fine_mode_modifier_key = 'shift'
-        else:
-            self.fine_mode_modifier_key = 'shift'
-
-        #
         # Window Aspect Ratio Control
         #
 
@@ -741,8 +713,6 @@ class BlueAndPinkSynthEditorApp(App):
         content = LoadDialog(load=self.on_file_load_dialog, cancel=self.dismiss_popup)
         self._popup = Popup(title="Load file", content=content,
                             size_hint=(0.9, 0.9))
-        self._popup.bind(on_open=self._on_popup_open)
-        self._popup.bind(on_dismiss=self._on_popup_dismiss)
         self._popup.open()
 
     def show_save_dialog(self):
@@ -764,8 +734,6 @@ class BlueAndPinkSynthEditorApp(App):
         )
         self._popup = SavePopup(title="Save file", content=content,
                                 size_hint=(0.9, 0.9))
-        self._popup.bind(on_open=self._on_popup_open)
-        self._popup.bind(on_dismiss=self._on_popup_dismiss)
         self._popup.open()
 
     def show_error_dialog_on_main_thread(self, error_string, error_detail_string):
@@ -830,9 +798,6 @@ class BlueAndPinkSynthEditorApp(App):
     def on_file_load_dialog(self, path, filepaths):
         # Close the file load dialog
         self.dismiss_popup()
-
-        # Re-bind keyboard events
-        self._bind_keyboard()
 
         if len(filepaths) > 0:
             Logger.debug(f'load path: {path}, filename: {filepaths}')
@@ -1252,10 +1217,6 @@ class BlueAndPinkSynthEditorApp(App):
     def set_curr_keyboard_editing_param_name(self, param_name):
         self.curr_keyboard_editing_param_name = param_name
 
-        if self.curr_keyboard_editing_param_name == '':
-            # Rebind keyboard events
-            self._bind_keyboard()
-
     def get_prop_value_for_param_name(self, param_name):
         # Convert the parameter name to the name
         # of our corresponding property
@@ -1304,12 +1265,6 @@ class BlueAndPinkSynthEditorApp(App):
 
     def max_val_for_param_name(self, param_name):
         return NymphesPreset.max_val_for_param_name(param_name)
-
-    def _bind_keyboard(self):
-        Logger.debug('App: _bind_keyboard')
-        self._keyboard = Window.request_keyboard(self._unbind_keyboard, self.root)
-        Logger.debug(f'self._keyboard: {self._keyboard}')
-        self._keyboard.bind(on_key_down=self._on_key_down, on_key_up=self._on_key_up)
 
     def _load_config_file(self, filepath):
         """
@@ -2283,139 +2238,8 @@ class BlueAndPinkSynthEditorApp(App):
 
             Logger.info('Stopped the nymphes_osc child process')
 
-    def _on_popup_open(self, popup_instance):
-        # Bind keyboard events for the popup
-        popup_instance.content._keyboard = Window.request_keyboard(popup_instance.content._unbind_keyboard,
-                                                                   popup_instance)
-        popup_instance.content._keyboard.bind(
-            on_key_down=popup_instance.content._on_key_down,
-            on_key_up=popup_instance.content._on_key_up
-        )
-
     def dismiss_popup(self):
         self._popup.dismiss()
-
-    def _on_popup_dismiss(self, popup_instance):
-        # Unbind keyboard events from the popup
-        if popup_instance.content._keyboard is not None:
-            popup_instance.content._keyboard.unbind(on_key_down=popup_instance.content._on_key_down)
-            popup_instance.content._keyboard.unbind(on_key_up=popup_instance.content._on_key_up)
-            popup_instance.content._keyboard = None
-
-        # Rebind keyboard events for the app itself
-        self._bind_keyboard()
-
-    def _unbind_keyboard(self):
-        Logger.debug('App: _unbind_keyboard')
-        self._keyboard.unbind(on_key_down=self._on_key_down)
-        self._keyboard.unbind(on_key_up=self._on_key_up)
-        self._keyboard.release()
-        self._keyboard = None
-
-    def _on_key_down(self, keyboard, keycode, text, modifiers):
-        Logger.debug(f'on_key_down: {keyboard}, {keycode}, {text}, {modifiers}')
-
-        # Check for either of the shift keys
-        left_shift_key_code = 304
-        right_shift_key_code = 303
-        if keycode in [left_shift_key_code, right_shift_key_code] or 'shift' in modifiers:
-            Logger.debug('Shift key pressed')
-            self._shift_key_pressed = True
-
-            if self.fine_mode_modifier_key == 'shift':
-                # Enable fine mode
-                Logger.debug('Fine Mode Enabled')
-                self.fine_mode = True
-
-        # Check for the meta key (CMD on macOS)
-        left_meta_key_code = 309
-        right_meta_key_code = 1073742055
-        if keycode in [left_meta_key_code, right_meta_key_code] or 'meta' in modifiers:
-            Logger.debug('meta key pressed')
-            self._meta_key_pressed = True
-
-            if self.fine_mode_modifier_key == 'meta':
-                # Enable fine mode
-                Logger.debug('Fine Mode Enabled')
-                self.fine_mode = True
-
-        # Check for the Alt key (Alt/Option on macOS)
-        left_alt_key_code = 308
-        right_alt_key_code = 307
-        if keycode in [left_alt_key_code, right_alt_key_code] or 'alt' in modifiers:
-            Logger.debug('alt key pressed')
-            self._alt_key_pressed = True
-
-            if self.fine_mode_modifier_key == 'alt':
-                # Enable fine mode
-                Logger.debug('Fine Mode Enabled')
-                self.fine_mode = True
-
-    def _on_key_up(self, keyboard, keycode):
-        Logger.debug(f'on_key_up: {keyboard}, {keycode}')
-
-        # Check for either of the shift keys
-        left_shift_key_code = 304
-        right_shift_key_code = 303
-        if keycode[0] in [left_shift_key_code, right_shift_key_code]:
-            Logger.debug('Shift key released')
-            self._shift_key_pressed = False
-
-            if self.fine_mode_modifier_key == 'shift':
-                # Disable fine mode
-                Logger.debug('Fine Mode Disabled')
-                self.fine_mode = False
-
-        # Check for the meta key (CMD on macOS)
-        left_meta_key_code = 309
-        right_meta_key_code = 1073742055
-        if keycode[0] in [left_meta_key_code, right_meta_key_code]:
-            Logger.debug('meta key released')
-            self._meta_key_pressed = False
-
-            if self.fine_mode_modifier_key == 'meta':
-                # Disable fine mode
-                Logger.debug('Fine Mode Disabled')
-                self.fine_mode = False
-
-        # Check for the Alt key (Alt/Option on macOS)
-        left_alt_key_code = 308
-        right_alt_key_code = 307
-        if keycode[0] in [left_alt_key_code, right_alt_key_code]:
-            Logger.debug('alt key released')
-            self._alt_key_pressed = False
-
-            if self.fine_mode_modifier_key == 'alt':
-                # Disable fine mode
-                Logger.debug('Fine Mode Disabled')
-                self.fine_mode = False
-
-        # File Open
-        if keycode[1] == 'o' and self._meta_key_pressed:
-            # Show the file load dialog
-            self.show_load_dialog()
-
-        # File Save / Save As
-        if keycode[1] == 's' and self._meta_key_pressed and self._alt_key_pressed:
-            #
-            # Save As
-            #
-
-            # Show the file save dialog
-            self.show_save_dialog()
-
-        elif keycode[1] == 's' and self._meta_key_pressed:
-            #
-            # Save
-            #
-
-            if self.curr_preset_type == 'file':
-                # A file is currently loaded. Update it.
-                self.update_current_preset_file()
-
-            else:
-                # Show the file save dialog
-                self.show_save_dialog()
 
     def _on_window_resize(self, instance, width, height):
         #
@@ -2852,3 +2676,15 @@ class BlueAndPinkSynthEditorApp(App):
             raise Exception(f'lfo_key_sync must be between 0 and 1: {lfo_key_sync}')
 
         return 'ON' if lfo_key_sync == 1 else 'OFF'
+
+    def control_section_selected(self, name):
+        """
+        A control section has been selected by tapping its title
+        """
+        print(name)
+
+    def control_selected(self, name):
+        """
+        A control has been selected by tapping its title
+        """
+        print(name)
