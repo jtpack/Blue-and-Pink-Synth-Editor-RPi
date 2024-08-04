@@ -527,3 +527,37 @@ class ChordParamsGridCell(ButtonBehavior, BoxLayout):
 
 class ChordSectionTitleLabel(HoverButton):
     this_chord_active = BooleanProperty(False)
+
+class SectionScreenTopBar(BoxLayout):
+    screen_name = StringProperty('')
+    corner_radius = NumericProperty(0)
+
+class OscillatorScreenMainControlsBox(BoxLayout):
+    screen_name = StringProperty('')
+    corner_radius = NumericProperty(0)
+
+class SectionScreenParamsGridModCell(BoxLayout):
+    screen_name = StringProperty('')
+    section_name = StringProperty('')
+    title = StringProperty('')
+    param_name = StringProperty('')
+    param_name_color_string = StringProperty('#ECBFEBFF')
+    value_color_string = StringProperty('#06070FFF')
+    background_color_string = StringProperty('#438EFFFF')
+    mod_amount_line_background_color_string = StringProperty('#000000FF')
+
+    value_prop = NumericProperty(0)
+    lfo2_prop = NumericProperty(0)
+    mod_wheel_prop = NumericProperty(0)
+    velocity_prop = NumericProperty(0)
+    aftertouch_prop = NumericProperty(0)
+    corner_radius = NumericProperty(0)
+
+class SectionScreenModAmountsBox(BoxLayout):
+    screen_name = StringProperty('')
+    param_name = StringProperty('')
+    lfo2_prop = NumericProperty(0)
+    mod_wheel_prop = NumericProperty(0)
+    velocity_prop = NumericProperty(0)
+    aftertouch_prop = NumericProperty(0)
+    mod_amount_line_background_color_string = StringProperty('#000000FF')

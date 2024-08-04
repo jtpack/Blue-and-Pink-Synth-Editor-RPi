@@ -1,11 +1,13 @@
 #:kivy 2.1.0
 #:import C kivy.utils.get_color_from_hex
 #:import SlideTransition kivy.uix.screenmanager.SlideTransition
+#:import NoTransition kivy.uix.screenmanager.NoTransition
 
 ScreenManager:
     MainScreen
     SettingsScreen
     ChordsScreen
+    OscillatorSectionScreen
 
 
 <MainScreen@Screen>:
@@ -1169,7 +1171,6 @@ ScreenManager:
     halign: 'left'
     valign: 'middle'
     disabled: not app.nymphes_connected
-    on_release: app.control_section_selected(self.text)
 
 
 <ParamNameLabel>:
@@ -1195,6 +1196,11 @@ ScreenManager:
 
     SectionTitleLabel:
         text: 'OSCILLATOR'
+        on_release:
+            app.root.transition = NoTransition()
+            app.root.current = 'oscillator'
+            app.set_curr_screen_name('oscillator')
+
 
     ParamsGrid:
         # Top Row
@@ -1770,6 +1776,7 @@ ScreenManager:
         text: root.title
         text_color_string: root.param_name_color_string
         on_release: app.control_selected(self.parent.param_name)
+        size_hint_y: 0.2
 
     FloatValueControl:
         screen_name: root.screen_name
@@ -1778,8 +1785,7 @@ ScreenManager:
         text_color_string: root.value_color_string
         enable_float_value: True
         external_value: root.value_prop
-        size_hint_y: None
-        height: app.curr_height * app.curr_scaling * 1/16
+        size_hint_y: 0.4
 
     ModAmountsBox:
         mod_amount_line_background_color_string: root.mod_amount_line_background_color_string
@@ -1791,6 +1797,7 @@ ScreenManager:
         mod_wheel_prop: root.mod_wheel_prop
         velocity_prop: root.velocity_prop
         aftertouch_prop: root.aftertouch_prop
+        size_hint_y: 0.4
 
 
 <ModAmountsBox>:
@@ -2482,3 +2489,297 @@ ScreenManager:
     
 <ChordValueControl>:
     base_font_size: self.height * 0.7
+
+
+<OscillatorSectionScreen@Screen>:
+    name: 'oscillator'
+
+    canvas.before:
+        Color:
+            rgba: C('#092042FF')
+        SmoothRectangle:
+            pos: self.pos
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: (root.height * 0.008, 0, root.height * 0.008, root.height * 0.008)
+        spacing: root.height * 0.008
+
+        # Top Bar
+        SectionScreenTopBar :
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015
+
+        OscillatorScreenMainControlsBox:
+            screen_name: root.name
+            size_hint_y: 35/40
+            corner_radius: root.height * 0.015
+
+        MainBottomBar:
+            screen_name: root.name
+            size_hint_y: 2/40
+            corner_radius: root.height * 0.015
+
+<SectionScreenTopBar>:
+    orientation: 'horizontal'
+    padding: [self.corner_radius * 0.25, self.corner_radius * 0.25]
+    spacing: self.parent.spacing
+
+    canvas.before:
+        Color:
+            rgba: C('#257CFFFF')
+
+        SmoothRoundedRectangle:
+            pos: root.pos
+            size: root.width, root.height
+            radius: [0, 0, root.corner_radius, root.corner_radius]
+
+    Widget:
+        size_hint_x: 18/20
+
+    TopBarButton:
+        screen_name: root.screen_name
+        text: 'BACK'
+        tooltip_text: 'RETURN TO MAIN SCREEN'
+        on_release:
+            app.root.transition = NoTransition()
+            app.root.current = app.prev_screen_name
+            app.set_curr_screen_name(app.prev_screen_name)
+            self.mouse_inside_bounds = False
+        size_hint_x: 2/20
+
+<OscillatorScreenMainControlsBox>:
+    orientation: 'horizontal'
+    spacing: self.parent.spacing
+
+    MainScreenLeftBar:
+        size_hint: 1/12, 1
+        screen_name: root.screen_name
+
+    ControlSectionsGrid:
+        cols: 1
+        spacing: self.parent.spacing
+        corner_radius: self.parent.corner_radius
+
+        OscillatorScreenControlSection:
+            screen_name: root.screen_name
+            size_hint_y: 2/4
+
+
+<OscillatorScreenControlSection@ControlSection>:
+    param_name_color_string: '#ECBFEBFF'
+    canvas.before:
+        Color:
+            rgba: C('#257CFFFF')
+
+        SmoothRoundedRectangle:
+            pos: root.pos
+            size: root.width, root.height
+            radius: [root.corner_radius]
+
+    SectionTitleLabel:
+        text: 'OSCILLATOR'
+
+    ParamsGrid:
+        # Top Row
+        #
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_top_row'
+            title: 'PW'
+            param_name: 'osc.pulsewidth'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.osc_pulsewidth_value
+            lfo2_prop: app.osc_pulsewidth_lfo2
+            mod_wheel_prop: app.osc_pulsewidth_mod_wheel
+            velocity_prop: app.osc_pulsewidth_velocity
+            aftertouch_prop: app.osc_pulsewidth_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_top_row'
+            title: 'GLD'
+            param_name: 'pitch.glide'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.pitch_glide_value
+            lfo2_prop: app.pitch_glide_lfo2
+            mod_wheel_prop: app.pitch_glide_mod_wheel
+            velocity_prop: app.pitch_glide_velocity
+            aftertouch_prop: app.pitch_glide_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_top_row'
+            title: 'DTN'
+            param_name: 'pitch.detune'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.pitch_detune_value
+            lfo2_prop: app.pitch_detune_lfo2
+            mod_wheel_prop: app.pitch_detune_mod_wheel
+            velocity_prop: app.pitch_detune_velocity
+            aftertouch_prop: app.pitch_detune_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_top_row'
+            title: 'CHD'
+            param_name: 'pitch.chord'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.pitch_chord_value
+            lfo2_prop: app.pitch_chord_lfo2
+            mod_wheel_prop: app.pitch_chord_mod_wheel
+            velocity_prop: app.pitch_chord_velocity
+            aftertouch_prop: app.pitch_chord_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_top_row'
+            title: 'EG'
+            param_name: 'pitch.eg'
+            param_name_color_string: '#0010EEFF'
+            value_prop: app.pitch_eg_value
+            lfo2_prop: app.pitch_eg_lfo2
+            mod_wheel_prop: app.pitch_eg_mod_wheel
+            velocity_prop: app.pitch_eg_velocity
+            aftertouch_prop: app.pitch_eg_aftertouch
+
+        # Bottom Row
+        #
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_bottom_row'
+            title: 'WAVE'
+            param_name: 'osc.wave'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.osc_wave_value
+            lfo2_prop: app.osc_wave_lfo2
+            mod_wheel_prop: app.osc_wave_mod_wheel
+            velocity_prop: app.osc_wave_velocity
+            aftertouch_prop: app.osc_wave_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_bottom_row'
+            title: 'LVL'
+            param_name: 'mix.osc'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.mix_osc_value
+            lfo2_prop: app.mix_osc_lfo2
+            mod_wheel_prop: app.mix_osc_mod_wheel
+            velocity_prop: app.mix_osc_velocity
+            aftertouch_prop: app.mix_osc_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_bottom_row'
+            title: 'SUB'
+            param_name: 'mix.sub'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.mix_sub_value
+            lfo2_prop: app.mix_sub_lfo2
+            mod_wheel_prop: app.mix_sub_mod_wheel
+            velocity_prop: app.mix_sub_velocity
+            aftertouch_prop: app.mix_sub_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_bottom_row'
+            title: 'NOISE'
+            param_name: 'mix.noise'
+            param_name_color_string: root.param_name_color_string
+            value_prop: app.mix_noise_value
+            lfo2_prop: app.mix_noise_lfo2
+            mod_wheel_prop: app.mix_noise_mod_wheel
+            velocity_prop: app.mix_noise_velocity
+            aftertouch_prop: app.mix_noise_aftertouch
+
+        SectionScreenParamsGridModCell:
+            screen_name: root.screen_name
+            section_name: 'oscillator_bottom_row'
+            title: 'LFO1'
+            param_name_color_string: '#5500EEFF'
+            param_name: 'pitch.lfo1'
+            value_prop: app.pitch_lfo1_value
+            lfo2_prop: app.pitch_lfo1_lfo2
+            mod_wheel_prop: app.pitch_lfo1_mod_wheel
+            velocity_prop: app.pitch_lfo1_velocity
+            aftertouch_prop: app.pitch_lfo1_aftertouch
+
+<SectionScreenParamsGridModCell>:
+    value_color_string: '#06070FFF'
+    background_color_string: '#438EFFFF'
+    mod_amount_line_background_color_string: '#6AA3F8FF'
+    orientation: 'vertical'
+    corner_radius: self.parent.corner_radius
+    padding: [0, self.corner_radius * 0.25]
+    canvas.before:
+        Color:
+            rgba: C(self.background_color_string)
+        SmoothRoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [root.corner_radius]
+
+    ParamNameLabel:
+        text: root.title
+        text_color_string: root.param_name_color_string
+        on_release: app.control_selected(self.parent.param_name)
+        size_hint_y: 0.2
+        font_size: self.height * 0.9
+
+    FloatValueControl:
+        screen_name: root.screen_name
+        section_name: root.section_name
+        param_name: root.param_name + '.value'
+        text_color_string: root.value_color_string
+        enable_float_value: True
+        external_value: root.value_prop
+        size_hint_y: 0.3
+
+    SectionScreenModAmountsBox:
+        mod_amount_line_background_color_string: root.mod_amount_line_background_color_string
+        size_hint_x: 0.75
+        pos_hint: {'center_x': 0.5}
+        size_hint_y: 0.5
+        screen_name: root.screen_name
+        param_name: root.param_name
+        lfo2_prop: root.lfo2_prop
+        mod_wheel_prop: root.mod_wheel_prop
+        velocity_prop: root.velocity_prop
+        aftertouch_prop: root.aftertouch_prop
+
+<SectionScreenModAmountsBox>:
+    orientation: 'horizontal'
+    spacing: self.width * 0.05
+    size_hint: 1, 1
+
+    Lfo2ModAmountLine:
+        background_color_string: root.mod_amount_line_background_color_string
+        param_name: root.param_name
+        screen_name: root.screen_name
+        mod_type: 'lfo2'
+        midi_val: root.lfo2_prop
+
+    WheelModAmountLine:
+        background_color_string: root.mod_amount_line_background_color_string
+        param_name: root.param_name
+        screen_name: root.screen_name
+        mod_type: 'mod_wheel'
+        midi_val: root.mod_wheel_prop
+
+    VelocityModAmountLine:
+        background_color_string: root.mod_amount_line_background_color_string
+        param_name: root.param_name
+        screen_name: root.screen_name
+        mod_type: 'velocity'
+        midi_val: root.velocity_prop
+
+    AftertouchModAmountLine:
+        background_color_string: root.mod_amount_line_background_color_string
+        param_name: root.param_name
+        screen_name: root.screen_name
+        mod_type: 'aftertouch'
+        midi_val: root.aftertouch_prop

@@ -1,3 +1,14 @@
+## v0.3.2-beta
+
+- Now using antialiased versions of RoundedRectangle and Rectangle
+- Started optimizing the app to run on a touchscreen without the need for a keyboard and mouse:
+  - Enabled virtual keyboard
+  - Unfortunately this means that key-commands no longer work, but perhaps this is not an issue because people will rarely connect a keyboard
+- Started to implement section screens, which provide a full screen of controls for just a single section, making it easier to control with a touchscreen
+  - Oscillator section screen is the first one
+    - Tap on the Oscillator section title to show the screen
+
+
 ## v0.3.1-beta
 
 - A bug was fixed in nymphes-osc that was causing LFO2 type and key sync to not be set when loading a preset file or when using fine mode

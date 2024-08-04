@@ -16,12 +16,13 @@ class SaveDialog(BoxLayout):
         super(SaveDialog, self).__init__(**kwargs)
 
 class SavePopup(Popup):
-    def on_open(self):
-        def select_all_delayed(_):
-            self.content.text_input.select_all()
+    pass
+    # def on_open(self):
+    #     def select_all_delayed(_):
+    #         self.content.text_input.select_all()
 
-        # Start editing the text input
-        self.content.text_input.focus = True
+    #     # Start editing the text input
+    #     self.content.text_input.focus = True
 
-        # Make it select all the text
-        Clock.schedule_once(lambda dt: select_all_delayed(dt), 0)
+    #     # Make it select all the text
+    #     Clock.schedule_once(lambda dt: select_all_delayed(dt), 0)
