@@ -400,12 +400,7 @@ class FineModeBox(BoxLayout):
     screen_name = StringProperty('')
 
 
-class MainScreenLeftBar(BoxLayout):
-    corner_radius = NumericProperty(0)
-    screen_name = StringProperty('')
-
-
-class ChordsScreenLeftBar(BoxLayout):
+class LeftBar(BoxLayout):
     corner_radius = NumericProperty(0)
     screen_name = StringProperty('')
 
@@ -413,19 +408,11 @@ class ChordsScreenLeftBar(BoxLayout):
 class TopBar(BoxLayout):
     screen_name = StringProperty('')
     corner_radius = NumericProperty(0)
+    right_button_is_settings = BooleanProperty(True)
+    right_button_transition = StringProperty('left')
 
 
 class BottomBar(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-
-class SettingsTopBar(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-
-class ChordsTopBar(BoxLayout):
     screen_name = StringProperty('')
     corner_radius = NumericProperty(0)
 
@@ -528,13 +515,6 @@ class ChordParamsGridCell(ButtonBehavior, BoxLayout):
 class ChordSectionTitleLabel(HoverButton):
     this_chord_active = BooleanProperty(False)
 
-class SectionScreenTopBar(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-class OscillatorScreenMainControlsBox(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
 
 class SectionScreenParamsGridModCell(BoxLayout):
     screen_name = StringProperty('')
