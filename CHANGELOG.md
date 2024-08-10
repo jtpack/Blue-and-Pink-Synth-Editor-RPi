@@ -3,8 +3,7 @@
   - However, the far-right button on the top bar will now change to either `SETTINGS` or `MAIN`, depending on the function of the current screen
   - Similarly, the `CHORD` button changes to a `MAIN` button when in the chords screen
 - In a section screen, the title label also functions as a back button
-
-
+- Fixed bug making chords screen titles too big
 
 
 ## v0.3.2-beta

@@ -66,7 +66,7 @@ Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/oscillator_section
 
 kivy.require('2.1.0')
 
-app_version_string = 'v0.3.2-beta'
+app_version_string = 'v0.3.2-beta_dev'
 
 
 class BlueAndPinkSynthEditorApp(App):
