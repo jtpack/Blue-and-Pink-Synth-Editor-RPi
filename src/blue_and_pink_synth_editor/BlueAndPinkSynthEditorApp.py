@@ -28,6 +28,7 @@ from kivy.core.window import Window
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.spinner import Spinner, SpinnerOption
 from kivy.uix.textinput import TextInput
+from kivy.lang.builder import Builder
 
 from pythonosc.udp_client import SimpleUDPClient
 from pythonosc.dispatcher import Dispatcher
@@ -45,9 +46,9 @@ from .misc_widgets import ParamsGridModCell, ParamsGridNonModCell, ModAmountLine
 from .misc_widgets import HoverButton, HoverSpinner, VoiceModeButton, ModAmountsBox
 from .misc_widgets import MainControlsBox, ChordsMainControlsBox, MainSettingsGrid
 from .misc_widgets import SettingsSubBox, VoiceModeBox, LegatoBox, ChordsButtonBox
-from .misc_widgets import FineModeBox, MainScreenLeftBar, TopBar, BottomBar, SettingsTopBar
-from .misc_widgets import ChordsTopBar, ControlSectionsGrid, ControlSection
-from .misc_widgets import ChordsControlSectionsGrid, SectionTitleLabel, ParamsGrid, ChordsScreenLeftBar
+from .misc_widgets import FineModeBox, LeftBar, TopBar, BottomBar
+from .misc_widgets import ControlSectionsGrid, ControlSection
+from .misc_widgets import ChordsControlSectionsGrid, SectionTitleLabel, ParamsGrid
 from .misc_widgets import ParamNameLabel, MidiInputPortsGrid, MidiOutputPortsGrid
 from .misc_widgets import MidiPortLabel, MidiInputPortCheckBox, MidiOutputPortCheckBox
 from .misc_widgets import ChordParamsGrid, ChordParamsGridCell, ChordSectionTitleLabel
@@ -61,9 +62,11 @@ from .synth_editor_value_controls import LfoTypeValueControl, LfoSyncValueContro
 Factory.register('LoadDialog', cls=LoadDialog)
 Factory.register('SaveDialog', cls=SaveDialog)
 
+Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/oscillator_section_screen.kv')
+
 kivy.require('2.1.0')
 
-app_version_string = 'v0.3.2-beta'
+app_version_string = 'v0.3.2-beta_dev'
 
 
 class BlueAndPinkSynthEditorApp(App):

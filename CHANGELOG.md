@@ -1,3 +1,11 @@
+- All `BACK` buttons now say `MAIN` instead, in order to create more consistency throughout the app
+- Now the top bar, left bar, and bottom bar are all the same for all screens
+  - However, the far-right button on the top bar will now change to either `SETTINGS` or `MAIN`, depending on the function of the current screen
+  - Similarly, the `CHORD` button changes to a `MAIN` button when in the chords screen
+- In a section screen, the title label also functions as a back button
+- Fixed bug making chords screen titles too big
+
+
 ## v0.3.2-beta
 
 - Now using antialiased versions of RoundedRectangle and Rectangle
