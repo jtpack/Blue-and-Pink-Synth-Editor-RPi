@@ -1,7 +1,9 @@
 from .value_control import ValueControl, DiscreteValuesControl
 from kivy.properties import StringProperty
 from kivy.app import App
+from kivy.lang.builder import Builder
 
+Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/synth_editor_value_controls.kv')
 
 class SynthEditorValueControl(ValueControl):
     """

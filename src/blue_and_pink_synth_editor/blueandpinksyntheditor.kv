@@ -148,11 +148,6 @@ ScreenManager:
             corner_radius: root.height * 0.015
 
 
-
-<ControlSection>:
-    orientation: 'vertical'
-    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
-
 <SectionTitleLabel>:
     size_hint_y: None
     height: app.curr_height * app.curr_scaling * 1/16
@@ -176,6 +171,8 @@ ScreenManager:
 
 
 <OscillatorControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#ECBFEBFF'
     canvas.before:
         Color:
@@ -192,7 +189,6 @@ ScreenManager:
             app.root.transition = NoTransition()
             app.root.current = 'oscillator'
             app.set_curr_screen_name('oscillator')
-
 
     ParamsGrid:
         # Top Row
@@ -319,7 +315,10 @@ ScreenManager:
             velocity_prop: app.pitch_lfo1_velocity
             aftertouch_prop: app.pitch_lfo1_aftertouch
 
+
 <FilterControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#ECBFEBFF'
     canvas.before:
         Color:
@@ -459,6 +458,8 @@ ScreenManager:
             aftertouch_prop: app.hpf_cutoff_aftertouch
 
 <Lfo1ControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#5500EEFF'
     canvas.before:
         Color:
@@ -532,6 +533,8 @@ ScreenManager:
 
 
 <AmpControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#ECBFEBFF'
     canvas.before:
         Color:
@@ -605,6 +608,8 @@ ScreenManager:
 
 
 <ReverbControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#ECBFEBFF'
     canvas.before:
         Color:
@@ -671,7 +676,10 @@ ScreenManager:
         Widget:
             size_hint: 1, 1
 
+
 <Lfo2ControlSection@ControlSection>:
+    orientation: 'vertical'
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
     param_name_color_string: '#F41513FF'
     canvas.before:
         Color:
@@ -743,776 +751,18 @@ ScreenManager:
             type_prop: app.lfo2_type_value
             key_sync_prop: app.lfo2_key_sync_value
 
+
 <ParamsGrid>:
     cols: 5
     corner_radius: self.width * 0.03
     spacing: self.width * 0.01
 
 
-<ParamsGridModCell>:
-    value_color_string: '#06070FFF'
-    background_color_string: '#438EFFFF'
-    mod_amount_line_background_color_string: '#6AA3F8FF'
-    orientation: 'vertical'
-    corner_radius: self.parent.corner_radius
-    padding: [self.corner_radius * 0.25]
-    canvas.before:
-        Color:
-            rgba: C(self.background_color_string)
-        SmoothRoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [root.corner_radius]
-
-    ParamNameLabel:
-        text: root.title
-        text_color_string: root.param_name_color_string
-        on_release: app.control_selected(self.parent.param_name)
-        size_hint_y: 0.25
-
-    FloatValueControl:
-        screen_name: root.screen_name
-        section_name: root.section_name
-        param_name: root.param_name + '.value'
-        text_color_string: root.value_color_string
-        enable_float_value: True
-        external_value: root.value_prop
-        size_hint_y: 0.4
-
-    ModAmountsBox:
-        mod_amount_line_background_color_string: root.mod_amount_line_background_color_string
-        size_hint_x: 0.75
-        pos_hint: {'center_x': 0.5}
-        screen_name: root.screen_name
-        param_name: root.param_name
-        lfo2_prop: root.lfo2_prop
-        mod_wheel_prop: root.mod_wheel_prop
-        velocity_prop: root.velocity_prop
-        aftertouch_prop: root.aftertouch_prop
-        size_hint_y: 0.35
-
-
-<ModAmountsBox>:
-    orientation: 'horizontal'
-    spacing: self.height * 0.1
-    size_hint: 1, 1
-
-    Lfo2ModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'lfo2'
-        midi_val: root.lfo2_prop
-
-    WheelModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'mod_wheel'
-        midi_val: root.mod_wheel_prop
-
-    VelocityModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'velocity'
-        midi_val: root.velocity_prop
-
-    AftertouchModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'aftertouch'
-        midi_val: root.aftertouch_prop
-
-
-<ModAmountLine>:
-    fine_mode_decimal_places: app.fine_mode_decimal_places
-    canvas:
-        # Line Background
-
-        Color:
-            rgba: C(self.background_color_string)
-
-        SmoothRoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: [self.width * 0.5]
-
-        # Line Which Grows with the Value
-        Color:
-            rgba: C(root.color_hex) if root.midi_val > 0 else C('#00000000')
-
-        SmoothRoundedRectangle:
-            pos: self.pos
-            size: self.size[0], (root.midi_val / 127.0) * (root.height - root.height * 0.01)
-            radius: [self.width * 0.5]
-
-    on_touch_down: if self.collide_point(*args[1].pos): self.handle_touch(args[1].device, args[1].button)
-    disabled: not app.nymphes_connected
-
-
-<Lfo2ModAmountLine@ModAmountLine>:
-    color_hex: '#F41513FF'
-
-
-<WheelModAmountLine@ModAmountLine>:
-    color_hex: '#FDFF00FF'
-
-
-<VelocityModAmountLine@ModAmountLine>:
-    color_hex: '#00FF1FFF'
-
-
-<AftertouchModAmountLine@ModAmountLine>:
-    color_hex: '#AA00FFFF'
-
-
-<ParamsGridLfoConfigCell>:
-    background_color_string: '#438EFFFF'
-    orientation: 'vertical'
-    corner_radius: self.parent.corner_radius
-    padding: [self.corner_radius * 0.25, self.corner_radius * 0.25]
-    canvas.before:
-        Color:
-            rgba: C(self.background_color_string)
-        SmoothRoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [root.corner_radius]
-
-    ParamNameLabel:
-        font_size: self.width * 0.2
-        text: 'TYPE'
-        text_color_string: root.param_name_color_string
-        on_release: app.control_selected(self.parent.section_name + '.type')
-
-    LfoTypeValueControl:
-        screen_name: root.screen_name
-        section_name: root.section_name
-        param_name: root.section_name + '.type.value'
-        external_value: root.type_prop
-        text_color_string: root.value_color_string
-
-    ParamNameLabel:
-        font_size: self.width * 0.2
-        text: 'SYNC'
-        text_color_string: root.param_name_color_string
-        on_release: app.control_selected(self.parent.section_name + '.key_sync')
-
-    LfoSyncValueControl:
-        screen_name: root.screen_name
-        section_name: root.section_name
-        param_name: root.section_name + '.key_sync.value'
-        external_value: root.key_sync_prop
-        text_color_string: root.value_color_string
-
-
-<ParamsGridNonModCell>:
-    value_color_string: '#06070FFF'
-    orientation: 'vertical'
-    corner_radius: self.parent.corner_radius
-    padding: [self.corner_radius * 0.25, self.corner_radius * 0.25]
-    canvas.before:
-        Color:
-            rgba: C(self.background_color_string)
-        SmoothRoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [root.corner_radius]
-
-    ParamNameLabel:
-        text: root.title
-        text_color_string: root.param_name_color_string
-        on_release: app.control_selected(self.parent.param_name)
-
-    FloatValueControl:
-        screen_name: root.screen_name
-        section_name: root.section_name
-        param_name: root.param_name + '.value'
-        text_color_string: root.value_color_string
-        external_value: root.value_prop
-        size_hint_y: None
-        height: app.curr_height * app.curr_scaling * 1/16
-
-    # A placeholder to take up the empty space in the lower
-    # part of the cell
-    Widget
-
-
-<PresetIncButton@HoverButton>:
-    color: C('#ECBFEBFF') if self.mouse_pressed else C('#06070FFF')
-    base_font_size: self.height * 0.7
-    font_size: (self.base_font_size * 1.2) if self.mouse_inside_bounds else self.base_font_size
-    text_size: self.size
-    halign: 'center'
-    valign: 'middle'
-    disabled: not app.nymphes_connected
-
-
-<TopBarSpinner@HoverSpinner>:
-    color: C('#ECBFEBFF') if self.mouse_pressed else C('#06070FFF')
-    base_font_size: self.height * 0.6 if len(self.text) <= 20 else self.height * 0.3
-    font_size: (self.base_font_size * 1.08) if self.mouse_inside_bounds else self.base_font_size
-    text_size: self.size
-    size_hint_y: None
-    height: self.parent.height
-    halign: 'center' if len(self.text) <= 20 else 'left'
-    valign: 'middle'
-    background_color: C('#00000000')
-    option_cls: 'TopBarSpinnerOption'
-    disabled: not app.nymphes_connected
-    spacing: self.height * 1/5
-
-
-<TopBarSpinnerOption@SpinnerOption>:
-    color: C('#06070FFF')
-    font_size: self.height * 0.75
-    text_size: self.size
-    size_hint_y: None
-    height: app.curr_height * app.curr_scaling * 2/40
-    halign: 'center'
-    valign: 'middle'
-    background_color: C('#1D60C5F5')
-    background_normal: ''
-
-
-<TopBarButton@HoverButton>:
-    size_hint_x: 1/6
-    size_hint_y: None
-    height: self.parent.height
-    color: C('#ECBFEBFF') if self.mouse_pressed else C('#06070FFF')
-    base_font_size: self.height * 0.5
-    text_size: self.size
-    halign: 'center'
-    valign: 'middle'
-
-
-<LoadDialog>:
-    orientation: 'vertical'
-    FileChooserListView:
-        id: filechooser
-        path: str(app._presets_directory_path)
-    BoxLayout:
-        size_hint_y: 1/8
-        Button:
-            text_size: self.size
-            font_size: self.height * 0.3
-            halign: 'center'
-            valign: 'middle'
-            text: "CANCEL"
-            on_release: root.cancel()
-
-        Button:
-            text_size: self.size
-            font_size: self.height * 0.3
-            halign: 'center'
-            valign: 'middle'
-            text: "OK"
-            on_release: root.load(filechooser.path, filechooser.selection)
-
-
-<SaveDialog>:
-    text_input: text_input
-    orientation: "vertical"
-
-    TextInput:
-        id: text_input
-        text: root.default_filename
-        text_size: self.size
-        font_size: self.height * 0.3
-        halign: 'left'
-        valign: 'middle'
-        size_hint_y: 1/8
-        multiline: False
-
-    BoxLayout:
-        size_hint_y: 1/8
-        Button:
-            text_size: self.size
-            font_size: self.height * 0.3
-            halign: 'center'
-            valign: 'middle'
-            text: "CANCEL"
-            on_release: root.cancel()
-
-        Button:
-            text_size: self.size
-            font_size: self.height * 0.3
-            halign: 'center'
-            valign: 'middle'
-            text: "OK"
-            on_release: root.save(filechooser.path, filechooser.path + '/' + text_input.text)
-
-    FileChooserListView:
-        id: filechooser
-        path: str(app._presets_directory_path)
-        on_selection: text_input.text = self.selection and self.selection[0] or ''
-
-<ErrorDialog>:
-    orientation: 'vertical'
-
-    Label:
-        multiline: True
-        text: app.error_text
-        text_size: self.size
-        halign: 'center'
-        valign: 'middle'
-        font_size: self.height * 1/6
-
-    Label:
-        multiline: True
-        text: app.error_detail_text
-        text_size: self.size
-        halign: 'center'
-        valign: 'middle'
-        font_size: self.height * 1/8
-
-    Button:
-        size_hint_y: 1/4
-        text_size: self.size
-        font_size: self.height * 0.7
-        halign: 'center'
-        valign: 'middle'
-        text: "OK"
-        on_release: root.ok()
-
-
-<NymphesPortsSection@ControlSection>:
-    spacing: self.parent.spacing
-    screen_name: 'settings'
-
-    canvas.before:
-        Color:
-            rgba: C('#257CFFFF')
-
-        SmoothRoundedRectangle:
-            pos: root.pos
-            size: root.width, root.height
-            radius: [root.corner_radius]
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        SectionTitleLabel:
-            text: 'NYMPHES'
-
-        GridLayout:
-            cols: 2
-            row_default_height: app.curr_height * app.curr_scaling * 1/16
-            row_force_default: True
-            spacing: (self.height / 3.0) * 1/10
-
-
-            # First Row
-            NymphesPortSpinnerLabel:
-                text: 'INPUT PORT'
-                size_hint_x: 3/8
-
-            NymphesPortSpinner:
-                size_hint_x: 5/8
-                values: app.nymphes_input_spinner_names
-                text: app.nymphes_input_name
-                on_text: app.nymphes_input_spinner_text_changed(self.text)
-                screen_name: root.screen_name
-                tooltip_text: 'MIDI PORT FOR INPUT FROM NYMPHES'
-
-            # Second Row
-            NymphesPortSpinnerLabel:
-                text: 'OUTPUT PORT'
-                size_hint_x: 3/8
-
-            NymphesPortSpinner:
-                size_hint_x: 5/8
-                values: app.nymphes_output_spinner_names
-                text: app.nymphes_output_name
-                on_text: app.nymphes_output_spinner_text_changed(self.text)
-                screen_name: root.screen_name
-                tooltip_text: 'MIDI PORT FOR OUTPUT TO NYMPHES'
-
-            # Third Row
-            NymphesPortSpinnerLabel:
-                text: 'MIDI CHANNEL'
-                size_hint_x: 3/8
-
-            NymphesMidiChannelValueControl:
-                size_hint_x: 5/8
-                screen_name: root.screen_name
-                param_name: 'nymphes_midi_channel'
-                external_value: app.nymphes_midi_channel
-                disabled: False
-                base_font_size: self.height * 0.55
-                spacing: 0
-                padding: 0, self.height * 1/10 + (self.font_size * 1/20 if self.mouse_inside_bounds else self.font_size * 1/10), 0, 0
-                halign: 'center'
-                valign: 'middle'
-
-
-<MidiInputPortsSection@ControlSection>:
-    spacing: self.parent.spacing[1]
-
-    canvas.before:
-        Color:
-            rgba: C('#257CFFFF')
-
-        SmoothRoundedRectangle:
-            pos: root.pos
-            size: root.width, root.height
-            radius: [root.corner_radius]
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        SectionTitleLabel:
-            text: 'MIDI INPUTS'
-
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-
-            MidiInputPortsGrid:
-                midi_ports: app.detected_midi_input_names_for_gui
-
-
-<MidiOutputPortsSection@ControlSection>:
-    spacing: self.parent.spacing[1]
-
-    canvas.before:
-        Color:
-            rgba: C('#257CFFFF')
-
-        SmoothRoundedRectangle:
-            pos: root.pos
-            size: root.width, root.height
-            radius: [root.corner_radius]
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        SectionTitleLabel:
-            text: 'MIDI OUTPUTS'
-
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-
-            MidiOutputPortsGrid:
-                midi_ports: app.detected_midi_output_names_for_gui
-
-<MiscSettingsSection@ControlSection>:
-    spacing: self.parent.spacing
-
-    canvas.before:
-        Color:
-            rgba: C('#257CFFFF')
-
-        SmoothRoundedRectangle:
-            pos: root.pos
-            size: root.width, root.height
-            radius: [root.corner_radius]
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        SectionTitleLabel:
-            text: 'MISC'
-
-        BoxLayout:
-            orientation: 'vertical'
-            spacing: self.height * 1/24
-
-            BoxLayout:
-                orientation: 'horizontal'
-                size_hint_y: 1/6
-
-                Label:
-                    text: 'INVERT MOUSE WHEEL'
-                    size_hint_x: 5/6
-                    color: C('#06070FFF')
-                    text_size: self.size
-                    font_size: self.height * 0.6
-                    halign: 'center'
-                    valign: 'middle'
-
-                CheckBox:
-                    size_hint_x: 1/6
-                    active: app.invert_mouse_wheel
-                    on_active: app.set_invert_mouse_wheel(self.active)
-
-            MiscSettingsButton:
-                on_release: app.open_presets_folder_in_native_file_browser()
-                size_hint_y: 1/6
-                text: 'OPEN PRESETS FOLDER'
-                screen_name: 'settings'
-                tooltip_text: 'SHOW PRESETS FOLDER IN SYSTEM FILE BROWSER'
-
-            MiscSettingsButton:
-                on_release: app.open_logs_folder_in_native_file_browser()
-                size_hint_y: 1/6
-                text: 'OPEN DEBUG LOGS FOLDER'
-                screen_name: 'settings'
-                tooltip_text: 'SHOW DEBUG LOGS FOLDER IN SYSTEM FILE BROWSER'
-
-            Widget:
-                size_hint_y: 3/6
-
-
-<MidiInputPortsGrid>:
-    row_default_height: app.curr_height * app.curr_scaling * 1/16
-    row_force_default: True
-    spacing: app.curr_height * app.curr_scaling * 1/60
-    padding: app.curr_height * app.curr_scaling * 1/60
-
-
-<MidiOutputPortsGrid>:
-    row_default_height: app.curr_height * app.curr_scaling * 1/16
-    row_force_default: True
-    spacing: app.curr_height * app.curr_scaling * 1/60
-    padding: app.curr_height * app.curr_scaling * 1/60
-
-
-<MidiPortLabel>:
-    size_hint_x: 7/8
-    color: C('#06070FFF')
-    font_size: self.height * 0.5
-    text_size: self.size
-    halign: 'left'
-    valign: 'middle'
-    background_color: C('#00000000')
-
-
-<MidiInputPortCheckBox>:
-    active: self.port_name in app.connected_midi_input_names_for_gui
-    on_active: app.midi_input_port_checkbox_toggled(self.port_name, self.active)
-    size_hint_x: 1/8
-
-
-<MidiOutputPortCheckBox>:
-    active: self.port_name in app.connected_midi_output_names_for_gui
-    on_active: app.midi_output_port_checkbox_toggled(self.port_name, self.active)
-    size_hint_x: 1/8
-
-
-<NymphesPortSpinner@HoverSpinner>:
-    color: C('#ECBFEBFF') if self.mouse_pressed else C('#06070FFF')
-    base_font_size: self.height * 0.5
-    font_size: (self.base_font_size * 1.08) if self.mouse_inside_bounds else self.base_font_size
-    text_size: self.size
-    halign: 'center'
-    valign: 'middle'
-    background_color: C('#00000000')
-    option_cls: 'NymphesPortSpinnerOption'
-    spacing: 0
-
-
-<NymphesPortSpinnerOption@SpinnerOption>:
-    color: C('#06070FFF')
-    font_size: self.height * 0.5
-    text_size: self.size
-    halign: 'center'
-    valign: 'middle'
-    background_color: C('#1D60C5F5')
-    background_normal: ''
-
-<NymphesPortSpinnerLabel@Label>:
-    color: C('#ECBFEBFF')
-    font_size: self.height * 0.4
-    text_size: self.size
-    halign: 'left'
-    valign: 'middle'
-    background_color: C('#00000000')
-
-
-<BottomBar>:
-    orientation: 'horizontal'
-    padding: [self.corner_radius * 1, self.corner_radius * 0.25]
-    spacing: 0
-
-    canvas.before:
-        Color:
-            rgba: C('#257CFFFF')
-
-        SmoothRoundedRectangle:
-            pos: root.pos
-            size: root.width, root.height
-            radius: [root.corner_radius, root.corner_radius, root.corner_radius, root.corner_radius]
-
-    Label:
-        size_hint_x: 25/40
-        text: app.status_bar_text
-        color: C('#222754FF')
-        font_size: self.height * 0.6
-        text_size: self.size
-        halign: 'left'
-        valign: 'middle'
-
-    # Mod Wheel
-    Label:
-        size_hint_x: 3/40
-        text: 'WHEEL'
-        color: C('#FDFF00FF')
-        font_size: self.height * 0.5
-        text_size: self.size
-        halign: 'right'
-        valign: 'middle'
-        disabled: not app.nymphes_connected
-
-    ModWheelValueControl:
-        screen_name: root.screen_name
-        param_name: 'mod_wheel'
-        external_value: app.mod_wheel
-        size_hint_x: 2/40
-        halign: 'center'
-        valign: 'middle'
-
-
-    # Velocity
-    Label:
-        size_hint_x: 3/40
-        text: 'VEL'
-        color: C('#00FF1FFF')
-        font_size: self.height * 0.5
-        text_size: self.size
-        halign: 'right'
-        valign: 'middle'
-        disabled: not app.nymphes_connected
-
-    Label:
-        size_hint_x: 2/40
-        text: str(app.velocity)
-        color: C('#222754FF') if app.nymphes_connected else C('#ECBFEBFF')
-        font_size: self.height * 0.7
-        text_size: self.size
-        halign: 'center'
-        valign: 'middle'
-        disabled: not app.nymphes_connected
-
-    # Aftertouch
-    Label:
-        size_hint_x: 3/40
-        text: 'AFT'
-        color: C('#AA00FFFF')
-        font_size: self.height * 0.5
-        text_size: self.size
-        halign: 'right'
-        valign: 'middle'
-        disabled: not app.nymphes_connected
-
-    AftertouchValueControl:
-        screen_name: root.screen_name
-        param_name: 'aftertouch'
-        external_value: app.aftertouch
-        size_hint_x: 2/40
-        halign: 'center'
-        valign: 'middle'
-
-
-<ModWheelValueControl, AftertouchValueControl>:
-    base_font_size: self.height * 0.7
-    text_color_string: '#092042FF'
-
-<MiscSettingsButton@HoverButton>:
-    color: C('#ECBFEBFF') if self.mouse_pressed else C('#06070FFF')
-    base_font_size: self.height * 0.6
-    text_size: self.size
-    halign: 'center'
-    valign: 'middle'
-
 <HoverButton>:
     font_size: (self.base_font_size * 1.08) if self.mouse_inside_bounds else self.base_font_size
 
-<ValueControl>:
-    text_size: self.size
-    halign: 'center'
-    font_size: self.base_font_size * self.mouseover_magnification_amount if self.mouse_inside_bounds else self.base_font_size
-    padding: 0, self.font_size * 1/20 if self.mouse_inside_bounds else self.font_size * 1/10, 0, 0
-    disabled: not app.nymphes_connected
-    invert_mouse_wheel: app.invert_mouse_wheel
 
-<FloatValueControl>:
-    base_font_size: self.height * 0.7
-    fine_mode: app.fine_mode
-    enable_float_drag: app.fine_mode
-
-<LfoTypeValueControl>:
-    base_font_size: self.width * 0.2
-
-<LfoSyncValueControl>:
-    base_font_size: self.width * 0.2
-
-<SectionScreenParamsGridModCell>:
-    value_color_string: '#06070FFF'
-    background_color_string: '#438EFFFF'
-    mod_amount_line_background_color_string: '#6AA3F8FF'
+<ControlSection>:
     orientation: 'vertical'
-    corner_radius: self.parent.corner_radius
-    padding: [0, self.corner_radius * 0.25]
-    canvas.before:
-        Color:
-            rgba: C(self.background_color_string)
-        SmoothRoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [root.corner_radius]
-
-    ParamNameLabel:
-        text: root.title
-        text_color_string: root.param_name_color_string
-        on_release: app.control_selected(self.parent.param_name)
-        size_hint_y: 0.2
-        font_size: self.height * 0.9
-
-    FloatValueControl:
-        screen_name: root.screen_name
-        section_name: root.section_name
-        param_name: root.param_name + '.value'
-        text_color_string: root.value_color_string
-        enable_float_value: True
-        external_value: root.value_prop
-        size_hint_y: 0.3
-
-    SectionScreenModAmountsBox:
-        mod_amount_line_background_color_string: root.mod_amount_line_background_color_string
-        size_hint_x: 0.75
-        pos_hint: {'center_x': 0.5}
-        size_hint_y: 0.5
-        screen_name: root.screen_name
-        param_name: root.param_name
-        lfo2_prop: root.lfo2_prop
-        mod_wheel_prop: root.mod_wheel_prop
-        velocity_prop: root.velocity_prop
-        aftertouch_prop: root.aftertouch_prop
-
-<SectionScreenModAmountsBox>:
-    orientation: 'horizontal'
-    spacing: self.width * 0.05
-    size_hint: 1, 1
-
-    Lfo2ModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'lfo2'
-        midi_val: root.lfo2_prop
-
-    WheelModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'mod_wheel'
-        midi_val: root.mod_wheel_prop
-
-    VelocityModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'velocity'
-        midi_val: root.velocity_prop
-
-    AftertouchModAmountLine:
-        background_color_string: root.mod_amount_line_background_color_string
-        param_name: root.param_name
-        screen_name: root.screen_name
-        mod_type: 'aftertouch'
-        midi_val: root.aftertouch_prop
-
+    padding: [self.corner_radius * 0.5, 0, self.corner_radius * 0.5, self.corner_radius * 0.5]
+    
