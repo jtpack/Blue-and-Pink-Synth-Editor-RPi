@@ -75,37 +75,7 @@ class FloatValueControl(SynthEditorValueControl):
         self.float_value_decimal_places = App.get_running_app().fine_mode_decimal_places
 
 
-class ChordValueControl(SynthEditorValueControl):
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.min_value = -127
-        self.max_value = 127
-        self.float_value_decimal_places = 0
-        self.enable_float_drag = False
-        self.enable_float_value = False
-        self.fine_mode = False
-
-        self._update_text()
-
-
-class MidiIntValueControl(SynthEditorValueControl):
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.min_value = 0
-        self.max_value = 127
-        self.float_value_decimal_places = 0
-        self.enable_float_drag = False
-        self.enable_float_value = False
-        self.fine_mode = False
-
-        self._update_text()
-
-
-class GenericIntValueControl(SynthEditorValueControl):
+class IntValueControl(SynthEditorValueControl):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -149,7 +119,19 @@ class NymphesMidiChannelValueControl(SynthEditorValueControl):
                 App.get_running_app().on_mouse_exited_param_control(f'{self.param_name}')
 
 
-class ModWheelValueControl(MidiIntValueControl):
+class ModWheelValueControl(SynthEditorValueControl):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.min_value = 0
+        self.max_value = 127
+        self.float_value_decimal_places = 0
+        self.enable_float_drag = False
+        self.enable_float_value = False
+        self.fine_mode = False
+
+        self._update_text()
+
     def on_mouse_inside_bounds(self, _, inside):
         if App.get_running_app().curr_screen_name == self.screen_name:
             if inside:
@@ -161,7 +143,19 @@ class ModWheelValueControl(MidiIntValueControl):
                 App.get_running_app().on_mouse_exited_param_control(f'{self.param_name}')
 
 
-class AftertouchValueControl(MidiIntValueControl):
+class AftertouchValueControl(SynthEditorValueControl):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.min_value = 0
+        self.max_value = 127
+        self.float_value_decimal_places = 0
+        self.enable_float_drag = False
+        self.enable_float_value = False
+        self.fine_mode = False
+
+        self._update_text()
+
     def on_mouse_inside_bounds(self, _, inside):
         if App.get_running_app().curr_screen_name == self.screen_name:
             if inside:

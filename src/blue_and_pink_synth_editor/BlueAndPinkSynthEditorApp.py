@@ -41,28 +41,20 @@ Logger.setLevel(LOG_LEVELS["debug"])
 from nymphes_midi.NymphesPreset import NymphesPreset
 from .nymphes_osc_process import NymphesOscProcess
 
-from .value_control import ValueControl, DiscreteValuesControl
-from .misc_widgets import ParamsGridModCell, ParamsGridNonModCell, ModAmountLine, HoverButton
-from .misc_widgets import HoverButton, HoverSpinner, VoiceModeButton, ModAmountsBox
-from .misc_widgets import MainControlsBox, ChordsMainControlsBox, MainSettingsGrid
-from .misc_widgets import SettingsSubBox, VoiceModeBox, LegatoBox, ChordsButtonBox
-from .misc_widgets import FineModeBox, LeftBar, TopBar, BottomBar
-from .misc_widgets import ControlSectionsGrid, ControlSection
-from .misc_widgets import ChordsControlSectionsGrid, SectionTitleLabel, ParamsGrid
-from .misc_widgets import ParamNameLabel, MidiInputPortsGrid, MidiOutputPortsGrid
-from .misc_widgets import MidiPortLabel, MidiInputPortCheckBox, MidiOutputPortCheckBox
-from .misc_widgets import ChordParamsGrid, ChordParamsGridCell, ChordSectionTitleLabel
-
 from .load_dialog import LoadDialog
 from .save_dialog import SaveDialog, SavePopup
 from .error_dialog import ErrorDialog
-from .synth_editor_value_controls import FloatValueControl, ChordValueControl
-from .synth_editor_value_controls import LfoTypeValueControl, LfoSyncValueControl
+from .ui_controls import chords_screen
+from .ui_controls import value_control
+from .ui_controls import synth_editor_value_controls
+from .ui_controls import left_bar
+from .ui_controls import top_bar
 
 Factory.register('LoadDialog', cls=LoadDialog)
 Factory.register('SaveDialog', cls=SaveDialog)
 
 Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/oscillator_section_screen.kv')
+
 
 kivy.require('2.1.0')
 

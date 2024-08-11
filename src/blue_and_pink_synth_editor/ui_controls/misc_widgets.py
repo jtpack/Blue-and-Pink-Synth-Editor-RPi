@@ -351,41 +351,7 @@ class ModAmountsBox(BoxLayout):
     mod_amount_line_background_color_string = StringProperty('#000000FF')
 
 
-class MainControlsBox(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-
-class ChordsMainControlsBox(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-
-class MainSettingsGrid(GridLayout):
-    corner_radius = NumericProperty(0)
-
-
-class SettingsSubBox(BoxLayout):
-    corner_radius = NumericProperty(0)
-
-
-class VoiceModeBox(BoxLayout):
-    num_voice_modes = NumericProperty(6)
-    corner_radius = NumericProperty(0)
-    screen_name = StringProperty('')
-
-
 class LegatoBox(BoxLayout):
-    corner_radius = NumericProperty(0)
-    screen_name = StringProperty('')
-
-
-class ChordsButtonBox(BoxLayout):
-    corner_radius = NumericProperty(0)
-    screen_name = StringProperty('')
-
-
-class ChordsScreenBackButtonBox(BoxLayout):
     corner_radius = NumericProperty(0)
     screen_name = StringProperty('')
 
@@ -400,24 +366,8 @@ class FineModeBox(BoxLayout):
     screen_name = StringProperty('')
 
 
-class LeftBar(BoxLayout):
-    corner_radius = NumericProperty(0)
-    screen_name = StringProperty('')
-
-
-class TopBar(BoxLayout):
-    screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-    right_button_is_settings = BooleanProperty(True)
-    right_button_transition = StringProperty('left')
-
-
 class BottomBar(BoxLayout):
     screen_name = StringProperty('')
-    corner_radius = NumericProperty(0)
-
-
-class ControlSectionsGrid(GridLayout):
     corner_radius = NumericProperty(0)
 
 
@@ -425,10 +375,6 @@ class ControlSection(BoxLayout):
     corner_radius = NumericProperty(0)
     screen_name = StringProperty('')
     param_name_color_string = StringProperty('#ECBFEB')
-
-
-class ChordsControlSectionsGrid(GridLayout):
-    corner_radius = NumericProperty(0)
 
 
 class SectionTitleLabel(ButtonBehavior, Label):
@@ -495,25 +441,6 @@ class MidiInputPortCheckBox(CheckBox):
 
 class MidiOutputPortCheckBox(CheckBox):
     port_name = StringProperty('')
-
-
-class ChordParamsGrid(GridLayout):
-    corner_radius = NumericProperty(0)
-
-
-class ChordParamsGridCell(ButtonBehavior, BoxLayout):
-    screen_name = StringProperty('')
-    section_name = StringProperty('')
-    title = StringProperty('')
-    param_name = StringProperty('')
-    value_prop = NumericProperty(0)
-    corner_radius = NumericProperty(0)
-    value_color_string = StringProperty('#06070FFF')
-    background_color_string = StringProperty('#438EFFFF')
-
-
-class ChordSectionTitleLabel(HoverButton):
-    this_chord_active = BooleanProperty(False)
 
 
 class SectionScreenParamsGridModCell(BoxLayout):
