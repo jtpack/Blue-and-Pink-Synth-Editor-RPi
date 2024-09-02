@@ -227,12 +227,12 @@ libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev
 $ sudo apt-get install xorg wget libxrender-dev lsb-release libraspberrypi-dev raspberrypi-kernel-headers
 ```
 
-## Download nymphes-osc Respository
+## Download nymphes-osc Repository
 
 - `$ cd ~`
 - `$ git clone https://github.com/jtpack/nymphes-osc.git`
 
-## Download Blue and Pink Synth Editor Respository
+## Download Blue and Pink Synth Editor Repository
 
 - `$ cd ~`
 - `$ git clone git@github.com:jtpack/Blue-and-Pink-Synth-Editor.git`
