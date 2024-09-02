@@ -41,9 +41,9 @@ Logger.setLevel(LOG_LEVELS["debug"])
 from nymphes_midi.NymphesPreset import NymphesPreset
 from .nymphes_osc_process import NymphesOscProcess
 
-from .ui_controls import load_dialog
-from .ui_controls import save_dialog
-from .ui_controls import error_dialog
+from .ui_controls.load_dialog import LoadDialog
+from .ui_controls.save_dialog import SaveDialog
+from .ui_controls.error_dialog import ErrorDialog
 from .ui_controls import chords_screen
 from .ui_controls import value_control
 from .ui_controls import synth_editor_value_controls
@@ -55,8 +55,8 @@ from .ui_controls import params_grid_lfo_config_cell
 from .ui_controls import settings_screen
 from .ui_controls import bottom_bar
 
-Factory.register('LoadDialog', cls=load_dialog.LoadDialog)
-Factory.register('SaveDialog', cls=save_dialog.SaveDialog)
+Factory.register('LoadDialog', cls=LoadDialog)
+Factory.register('SaveDialog', cls=SaveDialog)
 
 Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/oscillator_section_screen.kv')
 
@@ -732,7 +732,7 @@ class BlueAndPinkSynthEditorApp(App):
             cancel=self.dismiss_popup,
             default_filename=default_filename
         )
-        self._popup = SavePopup(title="Save file", content=content,
+        self._popup = Popup(title="Save file", content=content,
                                 size_hint=(0.9, 0.9))
         self._popup.open()
 
