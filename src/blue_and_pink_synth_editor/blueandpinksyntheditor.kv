@@ -10,6 +10,7 @@ ScreenManager:
     OscillatorSectionScreen
     FilterSectionScreen
     AmpReverbSectionScreen
+    LfoSectionScreen
 
 
 <MainScreen@Screen>:
@@ -443,17 +444,17 @@ ScreenManager:
         height: app.curr_height * app.curr_scaling * 1/20
         on_release:
             app.root.transition = NoTransition()
-            app.root.current = 'lfo1'
-            app.set_curr_screen_name('lfo1')
+            app.root.current = 'lfo'
+            app.set_curr_screen_name('lfo')
 
     ParamsGrid:
         # Top Row
         ParamsGridModCell:
             screen_name: root.screen_name
             section_name: 'lfo1'
+            param_name_color_string: root.param_name_color_string
             title: 'RATE'
             param_name: 'lfo1.rate'
-            param_name_color_string: root.param_name_color_string
             value_prop: app.lfo1_rate_value
             lfo2_prop: app.lfo1_rate_lfo2
             mod_wheel_prop: app.lfo1_rate_mod_wheel
@@ -463,9 +464,9 @@ ScreenManager:
         ParamsGridModCell:
             screen_name: root.screen_name
             section_name: 'lfo1'
+            param_name_color_string: root.param_name_color_string
             title: 'WAVE'
             param_name: 'lfo1.wave'
-            param_name_color_string: root.param_name_color_string
             value_prop: app.lfo1_wave_value
             lfo2_prop: app.lfo1_wave_lfo2
             mod_wheel_prop: app.lfo1_wave_mod_wheel
@@ -475,9 +476,9 @@ ScreenManager:
         ParamsGridModCell:
             screen_name: root.screen_name
             section_name: 'lfo1'
+            param_name_color_string: root.param_name_color_string
             title: 'DEL'
             param_name: 'lfo1.delay'
-            param_name_color_string: root.param_name_color_string
             value_prop: app.lfo1_delay_value
             lfo2_prop: app.lfo1_delay_lfo2
             mod_wheel_prop: app.lfo1_delay_mod_wheel
@@ -487,9 +488,9 @@ ScreenManager:
         ParamsGridModCell:
             screen_name: root.screen_name
             section_name: 'lfo1'
+            param_name_color_string: root.param_name_color_string
             title: 'FADE'
             param_name: 'lfo1.fade'
-            param_name_color_string: root.param_name_color_string
             value_prop: app.lfo1_fade_value
             lfo2_prop: app.lfo1_fade_lfo2
             mod_wheel_prop: app.lfo1_fade_mod_wheel
@@ -498,8 +499,8 @@ ScreenManager:
 
         ParamsGridLfoConfigCell:
             screen_name: root.screen_name
-            section_name: 'lfo1'
             param_name_color_string: root.param_name_color_string
+            section_name: 'lfo1'
             type_prop: app.lfo1_type_value
             key_sync_prop: app.lfo1_key_sync_value
 
@@ -681,8 +682,8 @@ ScreenManager:
         height: app.curr_height * app.curr_scaling * 1/20
         on_release:
             app.root.transition = NoTransition()
-            app.root.current = 'lfo2'
-            app.set_curr_screen_name('lfo2')
+            app.root.current = 'lfo'
+            app.set_curr_screen_name('lfo')
 
     ParamsGrid:
         # Top Row

@@ -19,3 +19,14 @@ class ParamsGridLfoConfigCell(BoxLayout):
     param_name_color_string = StringProperty('#ECBFEBFF')
     value_color_string = StringProperty('#06070FFF')
     background_color_string = StringProperty('#438EFFFF')
+
+
+class SectionScreenParamsGridLfoConfigCell(BoxLayout):
+    screen_name = StringProperty('')
+    section_name = StringProperty('')
+    type_prop = NumericProperty(0)
+    key_sync_prop = NumericProperty(0)
+    corner_radius = NumericProperty(0)
+    param_name_color_string = StringProperty('#ECBFEBFF')
+    value_color_string = StringProperty('#06070FFF')
+    background_color_string = StringProperty('#438EFFFF')

@@ -61,6 +61,7 @@ Factory.register('SaveDialog', cls=SaveDialog)
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/oscillator_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/filter_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/amp_reverb_section_screen.kv'))
+Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/lfo_section_screen.kv'))
 
 
 kivy.require('2.1.0')

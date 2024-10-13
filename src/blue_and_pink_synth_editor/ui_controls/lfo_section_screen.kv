@@ -1,0 +1,190 @@
+#:kivy 2.1.0
+#:import C kivy.utils.get_color_from_hex
+
+
+<LfoSectionScreen@Screen>:
+    name: 'lfo'
+
+    canvas.before:
+        Color:
+            rgba: C('#092042FF')
+        SmoothRectangle:
+            pos: self.pos
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: (root.height * 0.008, 0, root.height * 0.008, root.height * 0.008)
+        spacing: root.height * 0.008
+
+        # Top Bar
+        TopBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015
+            right_button_is_settings: False
+            right_button_transition: ''
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: self.parent.spacing
+            size_hint_y: 34/40
+
+            LeftBar:
+                size_hint: 1/12, 1
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+            ControlSection:
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+                param_name_color_string: '#ECBFEBFF'
+                canvas.before:
+                    Color:
+                        rgba: C('#257CFFFF')
+
+                    SmoothRoundedRectangle:
+                        pos: self.pos
+                        size: self.width, self.height
+                        radius: [root.height * 0.015]
+
+                SectionTitleHoverButton:
+                    text: 'LFO1'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
+                    on_release:
+                        app.root.transition = NoTransition()
+                        app.root.current = 'main'
+                        app.set_curr_screen_name('main')
+
+                ParamsGrid:
+                    # Top Row
+                    #
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo1'
+                        param_name_color_string: '#5500EEFF'
+                        title: 'RATE'
+                        param_name: 'lfo1.rate'
+                        value_prop: app.lfo1_rate_value
+                        lfo2_prop: app.lfo1_rate_lfo2
+                        mod_wheel_prop: app.lfo1_rate_mod_wheel
+                        velocity_prop: app.lfo1_rate_velocity
+                        aftertouch_prop: app.lfo1_rate_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo1'
+                        param_name_color_string: '#5500EEFF'
+                        title: 'WAVE'
+                        param_name: 'lfo1.wave'
+                        value_prop: app.lfo1_wave_value
+                        lfo2_prop: app.lfo1_wave_lfo2
+                        mod_wheel_prop: app.lfo1_wave_mod_wheel
+                        velocity_prop: app.lfo1_wave_velocity
+                        aftertouch_prop: app.lfo1_wave_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo1'
+                        param_name_color_string: '#5500EEFF'
+                        title: 'DEL'
+                        param_name: 'lfo1.delay'
+                        value_prop: app.lfo1_delay_value
+                        lfo2_prop: app.lfo1_delay_lfo2
+                        mod_wheel_prop: app.lfo1_delay_mod_wheel
+                        velocity_prop: app.lfo1_delay_velocity
+                        aftertouch_prop: app.lfo1_delay_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo1'
+                        param_name_color_string: '#5500EEFF'
+                        title: 'FADE'
+                        param_name: 'lfo1.fade'
+                        value_prop: app.lfo1_fade_value
+                        lfo2_prop: app.lfo1_fade_lfo2
+                        mod_wheel_prop: app.lfo1_fade_mod_wheel
+                        velocity_prop: app.lfo1_fade_velocity
+                        aftertouch_prop: app.lfo1_fade_aftertouch
+
+                    SectionScreenParamsGridLfoConfigCell:
+                        screen_name: root.name
+                        section_name: 'lfo1'
+                        param_name_color_string: '#5500EEFF'
+                        type_prop: app.lfo1_type_value
+                        key_sync_prop: app.lfo1_key_sync_value
+
+                SectionTitleHoverButton:
+                    text: 'LFO2'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
+                    on_release:
+                        app.root.transition = NoTransition()
+                        app.root.current = 'main'
+                        app.set_curr_screen_name('main')
+
+                ParamsGrid:
+                    # Bottom Row
+                    #
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo2'
+                        param_name_color_string: '#F41513FF'
+                        title: 'RATE'
+                        param_name: 'lfo2.rate'
+                        value_prop: app.lfo2_rate_value
+                        lfo2_prop: app.lfo2_rate_lfo2
+                        mod_wheel_prop: app.lfo2_rate_mod_wheel
+                        velocity_prop: app.lfo2_rate_velocity
+                        aftertouch_prop: app.lfo2_rate_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo2'
+                        param_name_color_string: '#F41513FF'
+                        title: 'WAVE'
+                        param_name: 'lfo2.wave'
+                        value_prop: app.lfo2_wave_value
+                        lfo2_prop: app.lfo2_wave_lfo2
+                        mod_wheel_prop: app.lfo2_wave_mod_wheel
+                        velocity_prop: app.lfo2_wave_velocity
+                        aftertouch_prop: app.lfo2_wave_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo2'
+                        param_name_color_string: '#F41513FF'
+                        title: 'DEL'
+                        param_name: 'lfo2.delay'
+                        value_prop: app.lfo2_delay_value
+                        lfo2_prop: app.lfo2_delay_lfo2
+                        mod_wheel_prop: app.lfo2_delay_mod_wheel
+                        velocity_prop: app.lfo2_delay_velocity
+                        aftertouch_prop: app.lfo2_delay_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'lfo2'
+                        param_name_color_string: '#F41513FF'
+                        title: 'FADE'
+                        param_name: 'lfo2.fade'
+                        value_prop: app.lfo2_fade_value
+                        lfo2_prop: app.lfo2_fade_lfo2
+                        mod_wheel_prop: app.lfo2_fade_mod_wheel
+                        velocity_prop: app.lfo2_fade_velocity
+                        aftertouch_prop: app.lfo2_fade_aftertouch
+
+                    SectionScreenParamsGridLfoConfigCell:
+                        screen_name: root.name
+                        section_name: 'lfo2'
+                        param_name_color_string: '#F41513FF'
+                        type_prop: app.lfo2_type_value
+                        key_sync_prop: app.lfo2_key_sync_value
+
+        BottomBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015
