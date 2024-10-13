@@ -7,7 +7,13 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.widget import Widget
 from kivy.app import App
 
-Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/params_grid_mod_cell.kv')
+from pathlib import Path
+
+# Import the kv file with the same name as this file
+#
+parent_directory = Path(__file__).resolve().parent
+this_file_name = Path(__file__).stem
+Builder.load_file(str(parent_directory / f'{this_file_name}.kv'))
 
 
 class ParamsGridModCell(BoxLayout):

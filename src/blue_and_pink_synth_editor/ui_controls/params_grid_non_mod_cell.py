@@ -1,8 +1,13 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, StringProperty
 from kivy.lang.builder import Builder
+from pathlib import Path
 
-Builder.load_file('src/blue_and_pink_synth_editor/ui_controls/params_grid_non_mod_cell.kv')
+# Import the kv file with the same name as this file
+#
+parent_directory = Path(__file__).resolve().parent
+this_file_name = Path(__file__).stem
+Builder.load_file(str(parent_directory / f'{this_file_name}.kv'))
 
 
 class ParamsGridNonModCell(BoxLayout):
