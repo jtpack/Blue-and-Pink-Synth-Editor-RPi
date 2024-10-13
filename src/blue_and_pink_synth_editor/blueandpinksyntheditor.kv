@@ -8,6 +8,7 @@ ScreenManager:
     SettingsScreen
     ChordsScreen
     OscillatorSectionScreen
+    FilterSectionScreen
 
 
 <MainScreen@Screen>:
@@ -274,6 +275,10 @@ ScreenManager:
 
     SectionTitleLabel:
         text: 'FILTER'
+        on_release:
+            app.root.transition = NoTransition()
+            app.root.current = 'filter'
+            app.set_curr_screen_name('filter')
 
     ParamsGrid:
         # Top Row

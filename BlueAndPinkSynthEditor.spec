@@ -17,6 +17,7 @@ a = Analysis(
         ('src/blue_and_pink_synth_editor/ui_controls/left_bar.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
         ('src/blue_and_pink_synth_editor/ui_controls/load_dialog.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
         ('src/blue_and_pink_synth_editor/ui_controls/oscillator_section_screen.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
+        ('src/blue_and_pink_synth_editor/ui_controls/filter_section_screen.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
         ('src/blue_and_pink_synth_editor/ui_controls/params_grid_lfo_config_cell.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
         ('src/blue_and_pink_synth_editor/ui_controls/params_grid_mod_cell.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
         ('src/blue_and_pink_synth_editor/ui_controls/params_grid_non_mod_cell.kv', 'src/blue_and_pink_synth_editor/ui_controls/'),
