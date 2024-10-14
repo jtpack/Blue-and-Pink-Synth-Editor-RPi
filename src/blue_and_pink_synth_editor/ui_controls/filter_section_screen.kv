@@ -1,0 +1,190 @@
+#:kivy 2.1.0
+#:import C kivy.utils.get_color_from_hex
+
+
+<FilterSectionScreen@Screen>:
+    name: 'filter'
+
+    canvas.before:
+        Color:
+            rgba: C('#092042FF')
+        SmoothRectangle:
+            pos: self.pos
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: (root.height * 0.008, 0, root.height * 0.008, root.height * 0.008)
+        spacing: root.height * 0.008
+
+        # Top Bar
+        TopBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015
+            right_button_is_settings: False
+            right_button_transition: ''
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: self.parent.spacing
+            size_hint_y: 34/40
+
+            LeftBar:
+                size_hint: 1/12, 1
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+            ControlSection:
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+                param_name_color_string: '#ECBFEBFF'
+                canvas.before:
+                    Color:
+                        rgba: C('#257CFFFF')
+
+                    SmoothRoundedRectangle:
+                        pos: self.pos
+                        size: self.width, self.height
+                        radius: [root.height * 0.015]
+
+                SectionTitleHoverButton:
+                    text: 'FILTER'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
+                    on_release:
+                        app.root.transition = NoTransition()
+                        app.root.current = 'main'
+                        app.set_curr_screen_name('main')
+
+                ParamsGrid:
+                    # Top Row
+                    #
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_top_row'
+                        title: 'CUT'
+                        param_name: 'lpf.cutoff'
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        value_prop: app.lpf_cutoff_value
+                        lfo2_prop: app.lpf_cutoff_lfo2
+                        mod_wheel_prop: app.lpf_cutoff_mod_wheel
+                        velocity_prop: app.lpf_cutoff_velocity
+                        aftertouch_prop: app.lpf_cutoff_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_top_row'
+                        title: 'RES'
+                        param_name: 'lpf.resonance'
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        value_prop: app.lpf_resonance_value
+                        lfo2_prop: app.lpf_resonance_lfo2
+                        mod_wheel_prop: app.lpf_resonance_mod_wheel
+                        velocity_prop: app.lpf_resonance_velocity
+                        aftertouch_prop: app.lpf_resonance_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_top_row'
+                        title: 'TRK'
+                        param_name: 'lpf.tracking'
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        value_prop: app.lpf_tracking_value
+                        lfo2_prop: app.lpf_tracking_lfo2
+                        mod_wheel_prop: app.lpf_tracking_mod_wheel
+                        velocity_prop: app.lpf_tracking_velocity
+                        aftertouch_prop: app.lpf_tracking_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_top_row'
+                        title: 'EG'
+                        param_name: 'lpf.eg'
+                        param_name_color_string: '#0010EEFF'
+                        value_prop: app.lpf_eg_value
+                        lfo2_prop: app.lpf_eg_lfo2
+                        mod_wheel_prop: app.lpf_eg_mod_wheel
+                        velocity_prop: app.lpf_eg_velocity
+                        aftertouch_prop: app.lpf_eg_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_top_row'
+                        title: 'LFO1'
+                        param_name_color_string: '#5500EEFF'
+                        param_name: 'lpf.lfo1'
+                        value_prop: app.lpf_lfo1_value
+                        lfo2_prop: app.lpf_lfo1_lfo2
+                        mod_wheel_prop: app.lpf_lfo1_mod_wheel
+                        velocity_prop: app.lpf_lfo1_velocity
+                        aftertouch_prop: app.lpf_lfo1_aftertouch
+
+                    # Bottom Row
+                    #
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_bottom_row'
+                        title: 'ATT'
+                        param_name: 'filter_eg.attack'
+                        param_name_color_string: '#0010EEFF'
+                        value_prop: app.filter_eg_attack_value
+                        lfo2_prop: app.filter_eg_attack_lfo2
+                        mod_wheel_prop: app.filter_eg_attack_mod_wheel
+                        velocity_prop: app.filter_eg_attack_velocity
+                        aftertouch_prop: app.filter_eg_attack_aftertouch
+            
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_bottom_row'
+                        title: 'DEC'
+                        param_name: 'filter_eg.decay'
+                        param_name_color_string: '#0010EEFF'
+                        value_prop: app.filter_eg_decay_value
+                        lfo2_prop: app.filter_eg_decay_lfo2
+                        mod_wheel_prop: app.filter_eg_decay_mod_wheel
+                        velocity_prop: app.filter_eg_decay_velocity
+                        aftertouch_prop: app.filter_eg_decay_aftertouch
+            
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_bottom_row'
+                        title: 'SUS'
+                        param_name: 'filter_eg.sustain'
+                        param_name_color_string: '#0010EEFF'
+                        value_prop: app.filter_eg_sustain_value
+                        lfo2_prop: app.filter_eg_sustain_lfo2
+                        mod_wheel_prop: app.filter_eg_sustain_mod_wheel
+                        velocity_prop: app.filter_eg_sustain_velocity
+                        aftertouch_prop: app.filter_eg_sustain_aftertouch
+            
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_bottom_row'
+                        title: 'REL'
+                        param_name: 'filter_eg.release'
+                        param_name_color_string: '#0010EEFF'
+                        value_prop: app.filter_eg_release_value
+                        lfo2_prop: app.filter_eg_release_lfo2
+                        mod_wheel_prop: app.filter_eg_release_mod_wheel
+                        velocity_prop: app.filter_eg_release_velocity
+                        aftertouch_prop: app.filter_eg_release_aftertouch
+            
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        section_name: 'filter_bottom_row'
+                        title: 'HPF'
+                        param_name: 'hpf.cutoff'
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        value_prop: app.hpf_cutoff_value
+                        lfo2_prop: app.hpf_cutoff_lfo2
+                        mod_wheel_prop: app.hpf_cutoff_mod_wheel
+                        velocity_prop: app.hpf_cutoff_velocity
+                        aftertouch_prop: app.hpf_cutoff_aftertouch
+
+        BottomBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015

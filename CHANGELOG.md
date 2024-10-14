@@ -7,6 +7,7 @@
 - Fixed bug preventing Load and Save dialogs from working
 - Reorganized all ui elements into separate py and kv files
   - It is much easier to navigate the project's files now
+- Finished implementing section screens for each control section
 
 
 ## v0.3.2-beta

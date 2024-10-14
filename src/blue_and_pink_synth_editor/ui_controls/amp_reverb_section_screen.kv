@@ -1,0 +1,182 @@
+#:kivy 2.1.0
+#:import C kivy.utils.get_color_from_hex
+
+
+<AmpReverbSectionScreen@Screen>:
+    name: 'amp_reverb'
+
+    canvas.before:
+        Color:
+            rgba: C('#092042FF')
+        SmoothRectangle:
+            pos: self.pos
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: (root.height * 0.008, 0, root.height * 0.008, root.height * 0.008)
+        spacing: root.height * 0.008
+
+        # Top Bar
+        TopBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015
+            right_button_is_settings: False
+            right_button_transition: ''
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: self.parent.spacing
+            size_hint_y: 34/40
+
+            LeftBar:
+                size_hint: 1/12, 1
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+            ControlSection:
+                screen_name: root.name
+                corner_radius: root.height * 0.015
+
+                param_name_color_string: '#ECBFEBFF'
+                canvas.before:
+                    Color:
+                        rgba: C('#257CFFFF')
+
+                    SmoothRoundedRectangle:
+                        pos: self.pos
+                        size: self.width, self.height
+                        radius: [root.height * 0.015]
+
+                SectionTitleHoverButton:
+                    text: 'AMP'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
+                    on_release:
+                        app.root.transition = NoTransition()
+                        app.root.current = 'main'
+                        app.set_curr_screen_name('main')
+
+                ParamsGrid:
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'ATT'
+                        param_name: 'amp_eg.attack'
+                        value_prop: app.amp_eg_attack_value
+                        lfo2_prop: app.amp_eg_attack_lfo2
+                        mod_wheel_prop: app.amp_eg_attack_mod_wheel
+                        velocity_prop: app.amp_eg_attack_velocity
+                        aftertouch_prop: app.amp_eg_attack_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'DEC'
+                        param_name: 'amp_eg.decay'
+                        value_prop: app.amp_eg_decay_value
+                        lfo2_prop: app.amp_eg_decay_lfo2
+                        mod_wheel_prop: app.amp_eg_decay_mod_wheel
+                        velocity_prop: app.amp_eg_decay_velocity
+                        aftertouch_prop: app.amp_eg_decay_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'SUS'
+                        param_name: 'amp_eg.sustain'
+                        value_prop: app.amp_eg_sustain_value
+                        lfo2_prop: app.amp_eg_sustain_lfo2
+                        mod_wheel_prop: app.amp_eg_sustain_mod_wheel
+                        velocity_prop: app.amp_eg_sustain_velocity
+                        aftertouch_prop: app.amp_eg_sustain_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: '#0010EEFF'
+                        section_name: 'amp_reverb'
+                        title: 'REL'
+                        param_name: 'amp_eg.release'
+                        value_prop: app.amp_eg_release_value
+                        lfo2_prop: app.amp_eg_release_lfo2
+                        mod_wheel_prop: app.amp_eg_release_mod_wheel
+                        velocity_prop: app.amp_eg_release_velocity
+                        aftertouch_prop: app.amp_eg_release_aftertouch
+
+                    SectionScreenParamsGridNonModCell:
+                        screen_name: root.name
+                        param_name_color_string: '#5500EEFF'
+                        section_name: 'amp_reverb'
+                        title: 'LVL'
+                        param_name: 'mix.level'
+                        value_prop: app.mix_level_value
+
+                SectionTitleHoverButton:
+                    text: 'REVERB'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
+                    on_release:
+                        app.root.transition = NoTransition()
+                        app.root.current = 'main'
+                        app.set_curr_screen_name('main')
+
+                ParamsGrid:
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'SIZE'
+                        param_name: 'reverb.size'
+                        value_prop: app.reverb_size_value
+                        lfo2_prop: app.reverb_size_lfo2
+                        mod_wheel_prop: app.reverb_size_mod_wheel
+                        velocity_prop: app.reverb_size_velocity
+                        aftertouch_prop: app.reverb_size_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'DEC'
+                        param_name: 'reverb.decay'
+                        value_prop: app.reverb_decay_value
+                        lfo2_prop: app.reverb_decay_lfo2
+                        mod_wheel_prop: app.reverb_decay_mod_wheel
+                        velocity_prop: app.reverb_decay_velocity
+                        aftertouch_prop: app.reverb_decay_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: self.parent.parent.param_name_color_string
+                        section_name: 'amp_reverb'
+                        title: 'FILT'
+                        param_name: 'reverb.filter'
+                        value_prop: app.reverb_filter_value
+                        lfo2_prop: app.reverb_filter_lfo2
+                        mod_wheel_prop: app.reverb_filter_mod_wheel
+                        velocity_prop: app.reverb_filter_velocity
+                        aftertouch_prop: app.reverb_filter_aftertouch
+
+                    SectionScreenParamsGridModCell:
+                        screen_name: root.name
+                        param_name_color_string: '#0010EEFF'
+                        section_name: 'amp_reverb'
+                        title: 'MIX'
+                        param_name: 'reverb.mix'
+                        value_prop: app.reverb_mix_value
+                        lfo2_prop: app.reverb_mix_lfo2
+                        mod_wheel_prop: app.reverb_mix_mod_wheel
+                        velocity_prop: app.reverb_mix_velocity
+                        aftertouch_prop: app.reverb_mix_aftertouch
+
+                    Widget
+
+        BottomBar:
+            screen_name: root.name
+            size_hint_y: 3/40
+            corner_radius: root.height * 0.015

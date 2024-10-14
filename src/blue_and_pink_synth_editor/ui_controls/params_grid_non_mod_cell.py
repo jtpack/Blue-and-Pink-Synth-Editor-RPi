@@ -20,3 +20,15 @@ class ParamsGridNonModCell(BoxLayout):
     value_color_string = StringProperty('#06070FFF')
     background_color_string = StringProperty('#438EFFFF')
     param_name_color_string = StringProperty('#ECBFEBFF')
+
+
+class SectionScreenParamsGridNonModCell(BoxLayout):
+    screen_name = StringProperty('')
+    section_name = StringProperty('')
+    title = StringProperty('')
+    param_name = StringProperty('')
+    value_prop = NumericProperty(0)
+    corner_radius = NumericProperty(0)
+    value_color_string = StringProperty('#06070FFF')
+    background_color_string = StringProperty('#438EFFFF')
+    param_name_color_string = StringProperty('#ECBFEBFF')

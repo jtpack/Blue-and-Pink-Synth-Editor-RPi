@@ -59,6 +59,9 @@ Factory.register('LoadDialog', cls=LoadDialog)
 Factory.register('SaveDialog', cls=SaveDialog)
 
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/oscillator_section_screen.kv'))
+Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/filter_section_screen.kv'))
+Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/amp_reverb_section_screen.kv'))
+Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/lfo_section_screen.kv'))
 
 
 kivy.require('2.1.0')
@@ -748,8 +751,6 @@ class BlueAndPinkSynthEditorApp(App):
         content = ErrorDialog(ok=self.dismiss_popup)
         self._popup = Popup(title="ERROR", content=content,
                             size_hint=(0.5, 0.5))
-        self._popup.bind(on_open=self._on_popup_open)
-        self._popup.bind(on_dismiss=self._on_popup_dismiss)
         self._popup.open()
 
     def update_current_preset(self):

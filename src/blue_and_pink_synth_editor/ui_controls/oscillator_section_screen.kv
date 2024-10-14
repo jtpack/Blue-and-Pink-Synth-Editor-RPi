@@ -50,8 +50,10 @@
                         size: self.width, self.height
                         radius: [root.height * 0.015]
 
-                SectionTitleLabel:
+                SectionTitleHoverButton:
                     text: 'OSCILLATOR'
+                    tooltip_text: 'RETURN TO MAIN SCREEN'
+                    screen_name: root.name
                     on_release:
                         app.root.transition = NoTransition()
                         app.root.current = 'main'
