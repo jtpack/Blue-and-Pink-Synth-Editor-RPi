@@ -66,7 +66,7 @@ Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/lfo_section
 
 kivy.require('2.1.0')
 
-app_version_string = 'v0.3.2-beta_dev'
+app_version_string = 'v0.3.3-beta_dev'
 
 
 class BlueAndPinkSynthEditorApp(App):
