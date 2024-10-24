@@ -1,3 +1,10 @@
+- Changed presets spinner so it always has the same number of items
+  - The first one always shows the name of the current preset
+- Now the preset + and - buttons cycle through the preset slots but do not pass through the init preset.
+- File load and save dialogs now sort the files alphabetically
+- New Feature: Preset + and - buttons now cycle through preset files if one is currently loaded
+
+
 ## v0.3.3-beta
 
 - All `BACK` buttons now say `MAIN` instead, in order to create more consistency throughout the app
