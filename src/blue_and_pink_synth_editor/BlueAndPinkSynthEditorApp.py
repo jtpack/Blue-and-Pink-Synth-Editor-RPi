@@ -1298,9 +1298,9 @@ class BlueAndPinkSynthEditorApp(App):
         # OSC Communication with Nymphes-OSC App
         config['NYMPHES_OSC'] = {
             'sender host': '127.0.0.1',
-            'sender port': '1236',
+            'sender port': '1237',
             'listener host': '127.0.0.1',
-            'listener port': '1237'}
+            'listener port': '1236'}
 
         # Nymphes MIDI Channel
         config['MIDI'] = {
