@@ -460,6 +460,25 @@ class BlueAndPinkSynthEditorApp(App):
         self._nymphes_osc_sender_port = None
 
         #
+        # OSC communication with encoders box
+        #
+        self._connected_to_encoders_box = False
+
+        # OSC Server that listens for OSC messages from encoders box
+        # child process
+        self._encoders_box_listener = None
+        self._encoders_box_listener_host = 5001
+        self._encoders_box_listener_port = '10.0.1.101'
+        self._encoders_box_listener_thread = None
+        self._encoders_box_listener_dispatcher = Dispatcher()
+
+        # OSC Client that sends OSC messages to encoders box
+        # child process
+        self._encoders_box_sender = None
+        self._encoders_box_sender_host = '10.0.1.103'
+        self._encoders_box_sender_port = 5000
+
+        #
         # Nymphes Synthesizer State
         #
 
@@ -607,10 +626,14 @@ class BlueAndPinkSynthEditorApp(App):
         self._nymphes_osc_sender = SimpleUDPClient(self._nymphes_osc_sender_host, self._nymphes_osc_sender_port)
         self._start_nymphes_osc_listener()
 
+        self._encoders_box_sender = SimpleUDPClient(self._encoders_box_sender_host, self._encoders_box_sender_port)
+        self._start_encoders_box_listener()
+
         #
         # Map Incoming OSC Messages
         #
         self._nymphes_osc_listener_dispatcher.map('*', self._on_nymphes_osc_message)
+        self._encoders_box_listener_dispatcher.map('*', self._on_encoders_box_message)
 
     def on_stop(self):
         """
@@ -1442,6 +1465,21 @@ class BlueAndPinkSynthEditorApp(App):
 
         Logger.info(f'Sent to nymphes-osc: {address}, {[str(arg) for arg in args]}')
 
+    def send_encoders_box_osc(self, address, *args):
+        """
+        Send an OSC message to encoders_box
+        :param address: The osc address including the forward slash ie: /register_host
+        :param args: A variable number arguments. Types will be automatically detected
+        :return:
+        """
+        msg = OscMessageBuilder(address=address)
+        for arg in args:
+            msg.add_arg(arg)
+        msg = msg.build()
+        self._encoders_box_sender.send(msg)
+
+        Logger.info(f'Sent to encoders box: {address}, {[str(arg) for arg in args]}')
+
     def _on_nymphes_osc_message(self, address, *args):
         """
         An OSC message has been received from nymphes-osc
@@ -2141,6 +2179,9 @@ class BlueAndPinkSynthEditorApp(App):
             else:
                 # This is an unrecognized OSC message
                 Logger.warning(f'Received unhandled OSC message: {address}')
+
+    def _on_encoders_box_osc_message(self, address, *args):
+        Logger.info(f'Received from encoders box: {address}: {host_name}:{port}')
 
     def _start_nymphes_osc_child_process(self):
         """
