@@ -1,3 +1,5 @@
+app_version_string = 'v0.3.4-beta'
+
 import logging
 from pathlib import Path
 import os
@@ -36,13 +38,11 @@ from pythonosc.osc_server import BlockingOSCUDPServer
 from pythonosc.osc_message_builder import OscMessageBuilder
 
 from kivy.logger import Logger, LOG_LEVELS
-Logger.setLevel(LOG_LEVELS["debug"])
+Logger.setLevel(LOG_LEVELS["info"])
 
 from nymphes_midi.NymphesPreset import NymphesPreset
 from .nymphes_osc_process import NymphesOscProcess
 
-from .ui_controls.load_dialog import LoadDialog
-from .ui_controls.save_dialog import SaveDialog
 from .ui_controls.error_dialog import ErrorDialog
 from .ui_controls import chords_screen
 from .ui_controls import value_control
@@ -54,19 +54,15 @@ from .ui_controls import params_grid_non_mod_cell
 from .ui_controls import params_grid_lfo_config_cell
 from .ui_controls import settings_screen
 from .ui_controls import bottom_bar
-
-Factory.register('LoadDialog', cls=LoadDialog)
-Factory.register('SaveDialog', cls=SaveDialog)
+from src.blue_and_pink_synth_editor.ui_controls.preset_load_screen import PresetLoadScreen
+from src.blue_and_pink_synth_editor.ui_controls.preset_save_screen import PresetSaveScreen
 
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/oscillator_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/filter_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/amp_reverb_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/lfo_section_screen.kv'))
 
-
 kivy.require('2.1.0')
-
-app_version_string = 'v0.3.3-beta_dev'
 
 
 class BlueAndPinkSynthEditorApp(App):
@@ -700,44 +696,17 @@ class BlueAndPinkSynthEditorApp(App):
         preset_info = BlueAndPinkSynthEditorApp.parse_preset_index(preset_index)
 
         # Load the preset
-        self.load_preset(preset_info['bank_name'],
-                         preset_info['preset_num'],
-                         preset_info['preset_type'])
+        self.load_preset(preset_info['preset_type'],
+                         preset_info['preset_bank'],
+                         preset_info['preset_num'])
 
-    def load_preset(self, bank_name, preset_num, preset_type):
+    def load_preset(self, preset_type, preset_bank, preset_num):
         self.send_nymphes_osc(
             '/load_preset',
             preset_type,
-            bank_name,
+            preset_bank,
             preset_num
         )
-
-    def show_load_dialog(self):
-        content = LoadDialog(load=self.on_file_load_dialog, cancel=self.dismiss_popup)
-        self._popup = Popup(title="Load file", content=content,
-                            size_hint=(0.9, 0.9))
-        self._popup.open()
-
-    def show_save_dialog(self):
-        if self.curr_preset_type == 'init':
-            default_filename = 'new_preset.txt'
-        elif self.curr_preset_type == 'file' and self._curr_preset_file_path.name == 'init.txt':
-            default_filename = 'new_preset.txt'
-        elif self.curr_preset_type == 'preset_slot':
-            default_filename = f'{self._curr_preset_slot_type.upper()} {self._curr_preset_slot_bank_and_number[0]}{self._curr_preset_slot_bank_and_number[1]}.txt'
-        elif self.curr_preset_type == 'file':
-            default_filename = self._curr_preset_file_path.name
-        else:
-            default_filename = ''
-
-        content = SaveDialog(
-            save=self.on_file_save_dialog,
-            cancel=self.dismiss_popup,
-            default_filename=default_filename
-        )
-        self._popup = Popup(title="Save file", content=content,
-                                size_hint=(0.9, 0.9))
-        self._popup.open()
 
     def show_error_dialog_on_main_thread(self, error_string, error_detail_string):
         def work_func(_, error_text, error_detail_text):
@@ -795,43 +764,6 @@ class BlueAndPinkSynthEditorApp(App):
                 self._curr_preset_slot_bank_and_number[0],
                 self._curr_preset_slot_bank_and_number[1]
             )
-
-    def on_file_load_dialog(self, path, filepaths):
-        # Close the file load dialog
-        self.dismiss_popup()
-
-        if len(filepaths) > 0:
-            Logger.debug(f'load path: {path}, filename: {filepaths}')
-
-            if Path(filepaths[0]).name == 'init.txt':
-                # This is the init file. Don't load it as a regular
-                # preset file. Load it as init.
-                self.send_nymphes_osc('/load_init_file')
-
-            else:
-                # Send message to nymphes controller to load the preset file
-                self.send_nymphes_osc('/load_file', filepaths[0])
-
-    def on_file_save_dialog(self, directory_path, filepath):
-        # Close the dialogue
-        self.dismiss_popup()
-
-        # Get the filename by removing all occurrences of the
-        # directory path (with a trailing slash added)
-        filename = filepath.replace(directory_path + '/', '')
-
-        if filename != '':
-            # Make sure that the filename has a .txt file extension
-            if '.txt' not in filename.lower():
-                filename += '.txt'
-
-            # Reconstruct the full path
-            filepath = directory_path + '/' + filename
-
-            Logger.info(f'Saving preset to {filepath}')
-
-            # Send message to nymphes controller to load the preset file
-            self.send_nymphes_osc('/save_to_file', filepath)
 
     def presets_spinner_text_changed(self, spinner_index, spinner_text):
         if self._curr_presets_spinner_index != spinner_index:
@@ -1616,7 +1548,7 @@ class BlueAndPinkSynthEditorApp(App):
             preset_slot_bank_and_number = str(args[1]), int(args[2])
 
             Logger.info(
-                f'{address}: {preset_slot_type} {preset_slot_bank_and_number[0]}{preset_slot_bank_and_number[1]}')
+                f'Received from nymphes-osc: {address}: {preset_slot_type} {preset_slot_bank_and_number[0]}{preset_slot_bank_and_number[1]}')
 
             # Reset the unsaved changes flag
             self._set_prop_value_on_main_thread('unsaved_preset_changes', False)
@@ -1745,7 +1677,7 @@ class BlueAndPinkSynthEditorApp(App):
                 # Update the presets spinner.
                 # This also sets the spinner's current text
                 # and updates self._curr_presets_spinner_index.
-                self._set_presets_spinner_first_option_on_main_thread(self._curr_preset_file_path.name)
+                self._set_presets_spinner_first_option_on_main_thread(self._curr_preset_file_path.stem)
 
                 # Status bar message
                 msg = f'SAVED {filepath.name} PRESET FILE'
@@ -1812,20 +1744,43 @@ class BlueAndPinkSynthEditorApp(App):
         elif address == '/saved_to_preset':
             #
             # The current settings have been saved into one of
-            # Nymphes' preset slots. We will not make the preset
-            # active however, because Nymphes has not actually
-            # loaded the new preset.
+            # Nymphes' preset slots.
             #
 
             # Get the preset info
-            preset_type = str(args[0])
-            bank_name = str(args[1])
-            preset_number = int(args[2])
+            preset_slot_type = str(args[0])
+            preset_slot_bank_and_number = str(args[1]), int(args[2])
 
-            Logger.info(f'Received from nymphes-osc: {address}: {preset_type} {bank_name}{preset_number}')
+            Logger.info(
+                f'Received from nymphes-osc: {address}: {preset_slot_type} {preset_slot_bank_and_number[0]}{preset_slot_bank_and_number[1]}')
+
+            # Reset the unsaved changes flag
+            self._set_prop_value_on_main_thread('unsaved_preset_changes', False)
+
+            # Update the current preset type property
+            self._set_prop_value_on_main_thread('curr_preset_type', 'preset_slot')
+
+            # Store preset slot info
+            self._curr_preset_slot_type = preset_slot_type
+            self._curr_preset_slot_bank_and_number = preset_slot_bank_and_number
+
+            # Get the index of the saved preset slot
+            preset_slot_index = BlueAndPinkSynthEditorApp.index_from_preset_info(
+                bank_name=self._curr_preset_slot_bank_and_number[0],
+                preset_num=self._curr_preset_slot_bank_and_number[1],
+                preset_type=self._curr_preset_slot_type
+            )
+
+            # Calculate the index within the presets spinner options
+            self._curr_presets_spinner_index = 2 + preset_slot_index
+
+            # Update the preset spinner's text
+            preset_name = self.presets_spinner_values[self._curr_presets_spinner_index]
+            if self.presets_spinner_text != preset_name:
+                self._set_presets_spinner_first_option_on_main_thread(preset_name)
 
             # Status bar message
-            msg = f'SAVED TO PRESET SLOT {preset_type.upper()} {bank_name}{preset_number}'
+            msg = f'SAVED TO PRESET SLOT {preset_slot_type.upper()} {preset_slot_bank_and_number[0]}{preset_slot_bank_and_number[1]}'
             self._set_prop_value_on_main_thread('status_bar_text', msg)
 
         elif address == '/requested_preset_dump':
@@ -2412,6 +2367,39 @@ class BlueAndPinkSynthEditorApp(App):
 
         Clock.schedule_once(lambda dt: work_func(dt, port_name), 0)
 
+    def load_init_preset(self):
+        self.send_nymphes_osc('/load_init_file')
+
+    def load_preset_file(self, filepath):
+        """
+        Load the preset file at filepath
+        :param filepath: Path or str
+        """
+        filepath = Path(filepath).resolve()
+        self.send_nymphes_osc('/load_file', str(filepath))
+
+    def save_to_preset_file(self, filepath):
+        """
+        Save the current Nymphes settings to a file at filepath.
+        :param filepath: str
+        """
+        filepath = Path(filepath).resolve()
+        Logger.info(f'save_to_preset_file: {filepath}')
+        self.send_nymphes_osc('/save_to_file', str(filepath))
+
+    def save_to_preset_slot(self, preset_type, preset_bank, preset_number):
+        """
+        Save the current Nymphes settings to a preset slot.
+        :param preset_type: str. 'user' or 'factory'
+        :param preset_bank: str. 'A' through 'G'
+        :param preset_number: int. 1 through 7
+        """
+        Logger.info(f'save_to_preset_slot: {preset_type} {preset_bank}{preset_number}')
+        self.send_nymphes_osc('/save_to_preset',
+                              preset_type,
+                              preset_bank,
+                              preset_number)
+
     @staticmethod
     def parse_preset_index(preset_index):
         """
@@ -2427,9 +2415,9 @@ class BlueAndPinkSynthEditorApp(App):
         preset_num = preset_nums[int((preset_index % 49) % 7)]
         preset_type = preset_types[int(preset_index / 49)]
 
-        return {'bank_name': bank_name,
-                'preset_num': preset_num,
-                'preset_type': preset_type}
+        return {'preset_type': preset_type,
+                'preset_bank': bank_name,
+                'preset_num': preset_num}
 
     @staticmethod
     def index_from_preset_info(bank_name, preset_num, preset_type):
