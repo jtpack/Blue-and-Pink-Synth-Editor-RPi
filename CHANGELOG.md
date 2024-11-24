@@ -8,6 +8,12 @@
 - Now the preset + and - buttons cycle through the preset slots but do not pass through the init preset.
 - File load and save dialogs now sort the files alphabetically
 - New Feature: Preset + and - buttons now cycle through preset files if one is currently loaded
+- Modified the LOAD and SAVE AS topbar buttons so now they toggle their screens
+  - The buttons remain lit when in their respective screens as a hint
+  - This eliminated the need for the SETTINGS button to become a BACK button, which means that now you can access the SETTINGS screen from the preset load and save screens
+- Made the same changes to the SETTINGS button
+- 
+
 
 
 ## v0.3.3-beta
