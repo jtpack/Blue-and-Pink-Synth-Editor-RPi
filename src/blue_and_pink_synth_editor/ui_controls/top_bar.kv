@@ -72,8 +72,8 @@
         color: C('#ECBFEBFF') if (app.curr_screen_name == 'preset_load' or self.mouse_pressed) else C('#06070FFF')
         on_release:
             app.root.transition = NoTransition()
-            app.root.current = 'preset_load'
-            app.set_curr_screen_name('preset_load')
+            app.root.current = 'preset_load' if app.curr_screen_name != 'preset_load' else 'main'
+            app.set_curr_screen_name('preset_load' if app.curr_screen_name != 'preset_load' else 'main')
             self.mouse_inside_bounds = False
 
     TopBarButton:
@@ -85,8 +85,8 @@
         color: C('#ECBFEBFF') if (app.curr_screen_name == 'preset_save' or self.mouse_pressed) else C('#06070FFF')
         on_release:
             app.root.transition = NoTransition()
-            app.root.current = 'preset_save'
-            app.set_curr_screen_name('preset_save')
+            app.root.current = 'preset_save' if app.curr_screen_name != 'preset_save' else 'main'
+            app.set_curr_screen_name('preset_save' if app.curr_screen_name != 'preset_save' else 'main')
             self.mouse_inside_bounds = False
 
     TopBarButton:
