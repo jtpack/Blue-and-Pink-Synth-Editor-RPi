@@ -1,3 +1,8 @@
+## v0.3.4-beta
+
+- Added the new preset load and save screens from the main Blue and Pink Synth Editor repository
+  - Now you can save to preset slots, including in the factory bank!
+- Various other improvements from the the main repository
 - Changed presets spinner so it always has the same number of items
   - The first one always shows the name of the current preset
 - Now the preset + and - buttons cycle through the preset slots but do not pass through the init preset.
