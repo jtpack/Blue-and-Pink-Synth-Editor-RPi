@@ -1,8 +1,6 @@
 # Blue and Pink Synth Editor on Raspberry Pi 5
 
-A full-featured editor for the Dreadbox Nymphes synthesizer. 
-
-These instructions will help you install it on a Raspbery Pi 5 with Raspberry Pi Touchscreen
+A full-featured editor for the Dreadbox Nymphes synthesizer, running on a Raspberry Pi.
 
 2026, Scott Lumsden
 
