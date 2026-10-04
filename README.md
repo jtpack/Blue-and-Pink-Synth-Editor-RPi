@@ -1,10 +1,10 @@
-# Blue and Pink Synth Editor on Raspberry Pi with [Raspberry Pi Touch Display](https://www.raspberrypi.com/products/raspberry-pi-touch-display/)
+# Blue and Pink Synth Editor on Raspberry Pi 5
 
 A full-featured editor for the Dreadbox Nymphes synthesizer. 
 
-These instructions will get you started using it on Raspberry Pi with a touchscreen.
+These instructions will help you install it on a Raspbery Pi 5 with Raspberry Pi Touchscreen
 
-2024, Scott Lumsden
+2026, Scott Lumsden
 
 # Features
 
@@ -21,10 +21,8 @@ These instructions will get you started using it on Raspberry Pi with a touchscr
 - MIDI pass-through from Nymphes to output ports
 
 
-# Instructions
-
 # Nymphes Setup
-- Make sure you have Nymphes Firmware Version 2.1 (the latest version as of March 2024)
+- Make sure you have Nymphes Firmware Version 2.1 (still the latest version as of Oct 2026)
 - Make sure that MIDI CC send/receive is turned ON
 - Make sure that MIDI Program Change send/receive is turned ON
 - Make sure that you choose the correct MIDI channel on the Settings page in Blue and Pink Synth Editor
@@ -32,255 +30,141 @@ These instructions will get you started using it on Raspberry Pi with a touchscr
 *For assistance with Nymphes' menu system: see the [Dreadbox Nymphes Manual](https://www.dreadbox-fx.com/wp-content/uploads/2024/03/Nymphes_Owners-Manual-v2.0.pdf)*
 
 
-# 1. Hardware
+# Raspberry Pi Setup
 
-Tested Raspberry Pi Models:
-- Raspberry Pi 5
-- Raspberry Pi 4
+## Hardware
 
-Tested Touchscreens:
-- [Raspberry Pi Touch Display](https://www.raspberrypi.com/products/raspberry-pi-touch-display/)
+- Raspberry Pi 5 (8GB RAM, though 4GB or 2GB might be fine)
+- [Original 7 inch Raspberry Pi Touch Display connected to the DISP0 DSI Output](https://www.raspberrypi.com/products/raspberry-pi-touch-display/)
 
 
-# 2. Operating System
-*These instructions are for the latest version of Raspberry Pi OS (Bookworm)*
+## Flash Raspberry Pi OS Onto SD Card
 
-## Flash Micro-SD Card with Raspberry Pi OS
+### Run Raspberry Pi Imager (https://www.raspberrypi.com/software/)
 
-### Use Raspberry Pi Imager (https://www.raspberrypi.com/software/)
+#### Device, OS, Storage:
 
-- First Screen
-  - Choose Raspberry Pi 5
-  - Choose Raspberry Pi OS (64 Bit)
-    - This is also known as "Bookworm"
-  - Choose your micro-SD card
-  - Click Next
+- Choose Raspberry Pi 5
+- Choose Raspberry Pi OS (64 Bit) -- Trixie
+- Choose SD Card
+- Click Next
 
-- Next Screen
-  - Click EDIT SETTINGS
-  
-- OS Customisation Screen
-  - General Tab
-    - Choose a hostname that you like
-    - Set username and password
-    - Configure wireless LAN (if you will be using Wi-Fi)
-    - Set the local settings to match where you are
+#### Customisation:
 
-  - Services Tab
-    - Enable SSH
-      - Choose "Use password authentication"
-        - This is the default
-  - Click SAVE
+- Hostname: nymphes
+- Username: *Enter a username*
+- Password: *Enter a password*
+- Configure wireless LAN
+- Set the locale settings to match where you are
+- Enable SSH
+	- Select `Use password authentication`
+- Do not enable Raspberry Pi Connect
 
-- Next Dialog
-  - Click YES to apply customization settings you've just set
+#### Click the `WRITE` button
 
-- Next Dialog
-  - Click YES to continue
+#### When writing finishes, remove the SD card and insert it into the RPi's SD card slot
 
+## Boot Raspberry Pi and Log In Via SSH
+*This assumes that the raspberry pi has successfully connected to your network*
+- `ssh <your username>@nymphes.local` 
 
-# 3. Raspberry Pi Configuration
+## Update the Pi
+- `sudo apt-get update` 
+- `sudo apt-get full-upgrade -y`
 
-### Insert SD Card and Power Up Raspberry Pi
+## Enable VNC Access
+- `sudo raspi-config`
+  - Select `Interface Options`
+    - Select `VNC`
+	  - Choose `Yes`
+  - Select `Finish`
 
-### Log In via SSH
-- `$ ssh <username>@apollo.local`
-  - Substitute the username you chose in the previous section
+- Try connecting to the RPi via VNC to verify that the VNC server is working
 
-### Configure Displays
+## Enable Samba Access for Sharing the Pi's Files on the Network
+This is to make it easy to access presets, logs, etc from another computer
 
-*Two displays will be enabled: DSI-1 (the touchscreen, which will show Blue and Pink Synth Editor in fullscreen), and HDMI-1 (a larger virtual screen which will be used visible using VNC for programming and general access)*
-
-#### Edit /boot/firmware/cmdline.txt:
-- `$ sudo nano /boot/firmware/cmdline.txt`
-- Add the following to the end of the single line in the file (do not create a 2nd line):
-  - ` video=DSI-1:800x480D video=HDMI-A-2:1920x1080MRD`
-- Save and exit nano
-
-### Reboot
-- `$ sudo reboot`
-
-### Enable X11
-*We are using X11 instead of Wayland because VNC support with Wayland currently does not support showing more than one display*
-
-- `$ sudo raspi-config`
-  - Select Advanced Options
-  - Select Wayland
-  - Select X11
-  - Select Finish
-  - Select Yes to reboot
-
-### Enable VNC
-- `$ sudo raspi-config`
-  - Select Interface Options
-  - Select VNC
-  - Select YES
-
-### Log In Via VNC
-*Use [RealVNC Viewer](https://www.realvnc.com/en/connect/download/viewer/) if you don't already have a VNC client preference*
-- Username and password will be the same as with ssh
-
-### Configure Displays Layout
-- Main Menu -> Preferences -> Screen Configuration
-  - Layout Menu -> Screens -> HDMI-1-2 -> Active
-    - The HDMI-1-2 screen appears in the Screen Layout Editor
-  - Move the HDMI-1-2 screen to the right of the DSI-1 screen
-  - Click Apply and then click Yes to keep the settings
-
-### Map Touch Interface to Control Only the LCD
-
-#### Check the name of the LCD's screen:
-
-- `$ xrandr`
-- in the listing, take note of the name of the DSI screen
-	- It will probably be `DSI-1`
-
-#### Check the id of the touch interface:
-
-- `$ xinput`
-- In the listing, take note of the id of the device with the name `6-0038 generic ft5x06 (79)` or similar
-	- It will likely be 6
-
-#### Test-map the touch interface to the LCD:
-
-- `$ xinput map-to-output 6 DSI-1`
-	- Substitute touch id and screen name if yours are different
-- Touch and drag on the touchscreen
-	- Make sure that the mouse cursor moves correctly under your finger, and only appears on the LCD
-
-#### If the mapping worked, make it permanent:
-- `$ nano ~/.xsessionrc`
-  - Add the mapping command on its own line
-    - ie: `xinput map-to-output 6 DSI-1`
-  - Save the file and exit nano
-
-#### Make sure the touchscreen mapping is correctly loaded on boot
-- `$ sudo reboot`
-- When finished booting, try touchscreen
-
-### Enable Samba for Sharing the Home Folder on the Network
-*This makes it easy to access presets, logs and other files from another computer*
-
-#### Install Samba:
-- `$ sudo apt-get install samba samba-common-bin`
-
-#### Edit Samba config:
-- `$ sudo nano /etc/samba/smb.conf`
-  - In the `[homes]` section:
-    - Set `writeable = yes`
-    - Set `browseable = yes`
-
-#### Set a Samba password for the user:
-- `$ sudo smbpasswd -a <username>`
-  - You will be prompted to enter a password
-
-#### Restart Samba:
-- `$ sudo systemctl restart smbd`
-
-#### Verify Samba is Working:
-- On your other computer, use your file explorer (Finder on macOS, Windows Explorer on Windows) to find the shared folder from the Raspberry Pi, and try to access it
-
-## (Optional) Install Useful Development Tools
-
-### Visual Studio Code
-
-#### - Install Visual Studio Code:
-- `$ sudo apt-get install code`
-
-#### - Run Visual Studio Code:
-- Main Menu -> Programming -> Visual Studio Code
-
-#### - Install Useful Extensions:
-- Go to Extensions
-- Find the python extension (made by Microsoft) and install it
-- Install the Gitlens extension
-- Install the Kivy extension (made by BattleBas)
-
-### Protokol
-*For debugging MIDI and OSC messages*
-
-#### - Download Protokol:
-- Use web browser to go to hexler.net/protokol
-- Download the ARM/32-bit/Raspberry Pi .deb package file
-
-#### - Install Protokol:
-- Use the file browser to go to ~/Downloads
-- Right-click on the .deb file you've just downloaded, and choose "Package Install"
-
-#### - Run Protokol:
-- Raspberry Pi Menu -> Programming -> Protokol
+- `sudo apt-get install samba samba-common-bin` 
+- Edit samba config: `sudo nano /etc/samba/smb.conf` 
+	- In the `[homes]` section:
+		- Set `browseable = yes` 
+		- Set `read only = no`
+    - Save and close the file
+- Set a Samba password for the user: `sudo smbpasswd -a <your username>` 
+	- You will be prompted to enter a password
+- Restart Samba: `sudo systemctl restart smbd` 
+- You should now be able to find the RPi's samba share on your network
 
 
-# Blue and Pink Synth Editor Installation
+# Install Blue and Pink Synth Editor
 
-## Install dependencies
+## Install Required Packages
+Some of these are prerequisites for kivy, which provides a GUI for Blue and Pink Synth Editor
+
 ```
-$ sudo apt-get -y install build-essential git make autoconf automake libtool \
+sudo apt-get -y install build-essential git make autoconf automake libtool \
 pkg-config cmake ninja-build libasound2-dev libpulse-dev libaudio-dev \
 libjack-dev libsndio-dev libsamplerate0-dev libx11-dev libxext-dev \
 libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libwayland-dev \
 libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
 libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev \
-python3-dev python3-venv
+python3-dev python3-venv xorg wget libxrender-dev lsb-release
 ```
 
-```
-$ sudo apt-get install xorg wget libxrender-dev lsb-release libraspberrypi-dev raspberrypi-kernel-headers
-```
+## Clone nymphes-osc Repository
+- `cd ~`
+- `git clone https://github.com/jtpack/nymphes-osc.git`
 
-## Download nymphes-osc Repository
 
-- `$ cd ~`
-- `$ git clone https://github.com/jtpack/nymphes-osc.git`
+## Clone this Repository (Blue-and-Pink-Synth-Editor-RPi)
+- `cd ~`
+- `git clone https://github.com/jtpack/Blue-and-Pink-Synth-Editor-RPi.git`
 
-## Download Blue and Pink Synth Editor Repository
 
-- `$ cd ~`
-- `$ git clone git@github.com:jtpack/Blue-and-Pink-Synth-Editor.git`
+## Create a Python Virtual Environment for the Project
+- `cd ~/Blue-and-Pink-Synth-Editor-RPi`
+- `python3 -m venv venv`
+- `source venv/bin/activate`
 
-## Create a virtual environment for Blue-and-Pink-Synth-Editor and activate it
-
-- `$ cd ~/Blue-and-Pink-Synth-Editor`
-- `$ python3 -m venv venv`
-- `$ source venv/bin/activate`
 
 ## Install nymphes-osc in the virtual environment
+- `pip install -e ~/nymphes-osc`
 
-- `$ pip install -e ~/nymphes-osc`
 
 ## Install Blue-and-Pink-Synth-Editor in the virtual environment
+- `pip install -e .`
 
-- `$ pip install -e .`
 
 ## Run Blue-and-Pink-Synth-Editor to make sure it works
+*Note: This must be done from the RPi itself, so do it via VNC. Don't ssh in, as there won't be a graphical environment for the app to run in.*
+- `python -m blue_and_pink_synth_editor`
 
-- `$ python -m blue_and_pink_synth_editor`
 
 ## Compile the app into an executable binary
+- `pyinstaller BlueAndPinkSynthEditor.spec`
 
-- `$ pyinstaller BlueAndPinkSynthEditor.spec`
 
 ## Run the compiled app to make sure it works
+- `dist/BlueAndPinkSynthEditor/BlueAndPinkSynthEditor`
 
-- `$ dist/BlueAndPinkSynthEditor/BlueAndPinkSynthEditor`
 
 ## Move the compiled app to /usr/local/bin
+- `sudo mv dist/BlueAndPinkSynthEditor/ /usr/local/bin/`
 
-- `$ sudo mv dist/BlueAndPinkSynthEditor/ /usr/local/bin/`
 
 ## Add Entry in Raspberry Pi Main Menu
-- `$ sudo cp BlueAndPinkSynthEditor.desktop /usr/share/applications`
+- `sudo cp BlueAndPinkSynthEditor.desktop /usr/share/applications`
+
 
 ## Make Blue and Pink Synth Editor Run Automatically on Boot
 
-#### - Create `~/.config/autostart/` directory if it doesn't exist:
-- `$ mkdir ~/.config/autostart`
+- Create `~/.config/autostart/` directory if it doesn't exist: `mkdir ~/.config/autostart`
 
-#### - Copy desktop file to autostart directory:
-- `$ cp BlueAndPinkSynthEditor.desktop ~/.config/autostart`
+- Copy desktop file to autostart directory: `cp BlueAndPinkSynthEditor.desktop ~/.config/autostart`
 
-#### - Reboot:
-- `$ sudo reboot`
+- Reboot: `sudo reboot`
 
-## How to quit Blue and Pink Synth Editor
-Press the Escape Key
+
+# How to quit Blue and Pink Synth Editor
+- Connect a keyboard and press the Escape Key
+- Or VNC into the RPi and press Escape
