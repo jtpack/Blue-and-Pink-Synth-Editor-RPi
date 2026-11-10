@@ -43,19 +43,19 @@ Logger.setLevel(LOG_LEVELS["info"])
 from nymphes_midi.NymphesPreset import NymphesPreset
 from .nymphes_osc_process import NymphesOscProcess
 
-from .ui_controls.error_dialog import ErrorDialog
-from .ui_controls import chords_screen
-from .ui_controls import value_control
-from .ui_controls import synth_editor_value_controls
-from .ui_controls import left_bar
-from .ui_controls import top_bar
-from .ui_controls import params_grid_mod_cell
-from .ui_controls import params_grid_non_mod_cell
-from .ui_controls import params_grid_lfo_config_cell
-from .ui_controls import settings_screen
-from .ui_controls import bottom_bar
-from src.blue_and_pink_synth_editor.ui_controls.preset_load_screen import PresetLoadScreen
-from src.blue_and_pink_synth_editor.ui_controls.preset_save_screen import PresetSaveScreen
+from blue_and_pink_synth_editor.ui_controls.error_dialog import ErrorDialog
+from blue_and_pink_synth_editor.ui_controls import chords_screen
+from blue_and_pink_synth_editor.ui_controls import value_control
+from blue_and_pink_synth_editor.ui_controls import synth_editor_value_controls
+from blue_and_pink_synth_editor.ui_controls import left_bar
+from blue_and_pink_synth_editor.ui_controls import top_bar
+from blue_and_pink_synth_editor.ui_controls import params_grid_mod_cell
+from blue_and_pink_synth_editor.ui_controls import params_grid_non_mod_cell
+from blue_and_pink_synth_editor.ui_controls import params_grid_lfo_config_cell
+from blue_and_pink_synth_editor.ui_controls import settings_screen
+from blue_and_pink_synth_editor.ui_controls import bottom_bar
+from blue_and_pink_synth_editor.ui_controls.preset_load_screen import PresetLoadScreen
+from blue_and_pink_synth_editor.ui_controls.preset_save_screen import PresetSaveScreen
 
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/oscillator_section_screen.kv'))
 Builder.load_file(str(Path(__file__).resolve().parent / 'ui_controls/filter_section_screen.kv'))
